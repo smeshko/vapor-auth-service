@@ -22,7 +22,6 @@ extension Application {
     
     func setupModules() throws {
         var modules: [ModuleInterface] = [
-            MetadataModule(),
             UserModule(),
             AuthModule(),
             FrontendModule()
@@ -64,7 +63,6 @@ extension Application {
     }
     
     func setupServices() {
-        appAttests.use(.appAttest)
         randomGenerators.use(.random)
         repositories.use(.database)
     }
