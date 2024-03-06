@@ -1,0 +1,22 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Docker
+.docker
+.dockerignore
+
+# Vim swap files
+**/*.swp
+
+# VS Code
+.vscode/
+
+# Vapor
+.build
+DerivedData
+Package.resolved
+*.xcodeproj
+.swiftpm
+.ship
