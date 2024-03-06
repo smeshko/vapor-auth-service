@@ -73,6 +73,10 @@ extension Environment {
 
 // MARK: - Setup
 extension Environment {
+    static var named: String {
+        Environment.get("ENV") ?? "prod"
+    }
+    
     static var baseURL: String {
         if let baseURL = Environment.get("BASE_URL") {
             return baseURL

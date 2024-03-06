@@ -13,6 +13,11 @@ private extension JWKIdentifier {
 }
 
 extension Application {
+    
+    func setupEnvironment() {
+        guard environment != .testing else { return }
+        environment = Environment(name: Environment.named)
+    }
 
     func setupMiddleware() {
         middleware = .init()

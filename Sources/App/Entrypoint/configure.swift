@@ -8,6 +8,7 @@ extension Environment {
 
 public func configure(_ app: Application) throws {
 
+    app.setupEnvironment()
     app.setupMiddleware()
     try app.setupDB()
     try app.setupJWT()
