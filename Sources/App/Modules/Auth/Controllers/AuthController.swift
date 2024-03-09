@@ -82,6 +82,7 @@ struct AuthController {
     func logout(_ req: Request) async throws -> HTTPStatus {
         let user = try req.auth.require(UserAccountModel.self)
         try await req.refreshTokens.delete(forUserID: user.requireID())
+        req.auth.logout(UserAccountModel.self)
         return .ok
     }
     

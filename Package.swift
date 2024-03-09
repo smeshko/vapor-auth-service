@@ -6,7 +6,7 @@ let vapor = Target.Dependency.product(name: "Vapor", package: "vapor")
 let prometheus = Target.Dependency.product(name: "SwiftPrometheus", package: "SwiftPrometheus")
 
 let package = Package(
-    name: "auth-service-template",
+    name: "AuthenticationTemplate",
     platforms: [
         .macOS(.v14)
     ],
@@ -25,7 +25,7 @@ let package = Package(
         .executableTarget(
             name: "App",
             dependencies: [
-                "Common", "Entities", vapor, fluent, prometheus,
+                "Entities", vapor, fluent, prometheus,
                 .product(name: "SwiftHtml", package: "swift-html"),
                 .product(name: "SwiftSvg", package: "swift-html"),
                 .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
@@ -34,7 +34,6 @@ let package = Package(
             ]
         ),
         .target(name: "Entities", dependencies: [.product(name: "JWT", package: "jwt")]),
-        .target(name: "Common"),
         .testTarget(name: "AppTests", dependencies: [
             .target(name: "App"),
             .product(name: "XCTVapor", package: "vapor"),

@@ -20,6 +20,5 @@ struct AuthRouter: RouteCollection {
         api
             .grouped(UserPayloadAuthenticator())
             .post("logout", use: controller.logout)
-        
     }
 }

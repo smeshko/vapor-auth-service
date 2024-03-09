@@ -27,13 +27,6 @@ class TestWorld {
         app.repositories.use { _ in self.emailTokenRepository }
         app.repositories.use { _ in self.passwordTokenRepository }
         
-        app.dataClients.use { _ in .test }
         app.email.use(.fake)
-    }
-}
-
-extension MarketClient {
-    static var test: MarketClient {
-        .init { .open }
     }
 }
