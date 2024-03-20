@@ -1,5 +1,6 @@
-import Vapor
+import Common
 import Fluent
+import Vapor
 
 private let refreshTokenLifetime: TimeInterval = 7.days
 

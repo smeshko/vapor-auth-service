@@ -1,6 +1,7 @@
-import Vapor
+import Common
 import Metrics
 import Prometheus
+import Vapor
 
 struct MetricsModule: ModuleInterface {
     

@@ -1,4 +1,5 @@
 @testable import App
+import Common
 import Vapor
 
 protocol TestRepository: AnyObject {}

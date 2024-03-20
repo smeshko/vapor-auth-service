@@ -1,3 +1,4 @@
+import Common
 import FluentPostgresDriver
 import FluentSQLiteDriver
 import JWT
@@ -29,7 +30,8 @@ extension Application {
         var modules: [ModuleInterface] = [
             UserModule(),
             AuthModule(),
-            FrontendModule()
+            FrontendModule(),
+            PostModule()
         ]
         
         if environment != .testing {

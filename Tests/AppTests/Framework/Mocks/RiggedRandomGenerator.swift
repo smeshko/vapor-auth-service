@@ -1,6 +1,6 @@
 @testable import App
+import Common
 import Vapor
-
 
 extension Application.RandomGenerators.Provider {
     static func rigged(value: String) -> Self {

@@ -1,5 +1,6 @@
-import Vapor
+import Common
 import Fluent
+import Vapor
 
 protocol PasswordTokenRepository: Repository {
     func find(forUserID id: UUID) async throws -> PasswordTokenModel?

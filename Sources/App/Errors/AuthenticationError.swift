@@ -1,5 +1,6 @@
-import Vapor
+import Common
 import Entities
+import Vapor
 
 extension AuthenticationError: AppError {}
 

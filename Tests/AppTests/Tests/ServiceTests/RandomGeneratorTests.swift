@@ -1,5 +1,6 @@
 @testable import App
 import XCTVapor
+import Common
 
 final class RandomGeneratorTests: XCTestCase {
     var app: Application!

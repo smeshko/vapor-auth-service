@@ -4,9 +4,11 @@ import PackageDescription
 let fluent = Target.Dependency.product(name: "Fluent", package: "fluent")
 let vapor = Target.Dependency.product(name: "Vapor", package: "vapor")
 let prometheus = Target.Dependency.product(name: "SwiftPrometheus", package: "SwiftPrometheus")
+let entities = Target.Dependency.product(name: "Entities", package: "id5-entities")
+let common = Target.Dependency.product(name: "Common", package: "id5-common")
 
 let package = Package(
-    name: "AuthenticationTemplate",
+    name: "id5-auth-service",
     platforms: [
         .macOS(.v14)
     ],
@@ -19,13 +21,16 @@ let package = Package(
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.0.0"),
         .package(url: "https://github.com/MrLotU/SwiftPrometheus.git", from: "1.0.2"),
         .package(url: "https://github.com/vapor/jwt.git", from: "4.0.0"),
-        .package(url: "https://github.com/binarybirds/swift-html", from: "1.7.0")
+        .package(url: "https://github.com/binarybirds/swift-html", from: "1.7.0"),
+        .package(url: "https://github.com/smeshko/id5-entities", branch: "main"),
+        .package(url: "https://github.com/smeshko/id5-common", branch: "main")
+
     ],
     targets: [
         .executableTarget(
             name: "App",
             dependencies: [
-                "Entities", vapor, fluent, prometheus,
+                common, entities, vapor, fluent, prometheus,
                 .product(name: "SwiftHtml", package: "swift-html"),
                 .product(name: "SwiftSvg", package: "swift-html"),
                 .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
@@ -33,7 +38,6 @@ let package = Package(
                 .product(name: "JWT", package: "jwt"),
             ]
         ),
-        .target(name: "Entities", dependencies: [.product(name: "JWT", package: "jwt")]),
         .testTarget(name: "AppTests", dependencies: [
             .target(name: "App"),
             .product(name: "XCTVapor", package: "vapor"),

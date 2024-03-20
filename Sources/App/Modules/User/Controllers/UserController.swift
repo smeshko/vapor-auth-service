@@ -1,7 +1,8 @@
+import Common
 import Entities
-import Vapor
 import Fluent
 import JWT
+import Vapor
 
 struct UserController {
     func getCurrentUser(_ req: Request) async throws -> User.Detail.Response {

@@ -1,5 +1,6 @@
-import Vapor
+import Common
 import Fluent
+import Vapor
 
 final class UserAccountModel: DatabaseModelInterface, Authenticatable {
     typealias Module = UserModule
@@ -21,6 +22,9 @@ final class UserAccountModel: DatabaseModelInterface, Authenticatable {
     
     @Field(key: FieldKeys.v1.isEmailVerified)
     var isEmailVerified: Bool
+    
+    @Children(for: \.$user)
+    var posts: [PostModel]
 
     init() { }
     

@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  app:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`id5.local`)"
+
+networks:
+  id5:
+    external: true
+    name: id5

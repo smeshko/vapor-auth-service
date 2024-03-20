@@ -9,6 +9,7 @@ public extension Application {
                     $0.repositories.use { DatabaseEmailTokenRepository(database: $0.db) }
                     $0.repositories.use { DatabaseRefreshTokenRepository(database: $0.db) }
                     $0.repositories.use { DatabasePasswordTokenRepository(database: $0.db) }
+                    $0.repositories.use { DatabasePostRepository(database: $0.db) }
                 }
             }
             
@@ -20,6 +21,7 @@ public extension Application {
             var makeEmailTokenRepository: ((Application) -> any EmailTokenRepository)?
             var makeRefreshTokenRepository: ((Application) -> any RefreshTokenRepository)?
             var makePasswordTokenRepository: ((Application) -> any PasswordTokenRepository)?
+            var makePostRepository: ((Application) -> any PostRepository)?
             init() { }
         }
         

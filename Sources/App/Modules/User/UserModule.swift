@@ -1,3 +1,4 @@
+import Common
 import Vapor
 
 struct UserModule: ModuleInterface {

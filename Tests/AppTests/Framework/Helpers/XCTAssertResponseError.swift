@@ -1,5 +1,6 @@
-import XCTVapor
 @testable import App
+import Common
+import XCTVapor
 
 func XCTAssertResponseError(_ res: XCTHTTPResponse, _ error: AppError, file: StaticString = #file, line: UInt = #line) {
     XCTAssertEqual(res.status, error.status, file: file, line: line)

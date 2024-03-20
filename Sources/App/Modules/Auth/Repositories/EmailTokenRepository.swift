@@ -1,6 +1,7 @@
+import Common
+import Fluent
 import Foundation
 import Vapor
-import Fluent
 
 protocol EmailTokenRepository: Repository {
     func find(forUserID id: UUID) async throws -> EmailTokenModel?
