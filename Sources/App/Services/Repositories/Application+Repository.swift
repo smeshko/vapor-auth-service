@@ -10,6 +10,7 @@ public extension Application {
                     $0.repositories.use { DatabaseRefreshTokenRepository(database: $0.db) }
                     $0.repositories.use { DatabasePasswordTokenRepository(database: $0.db) }
                     $0.repositories.use { DatabasePostRepository(database: $0.db) }
+                    $0.repositories.use { DatabaseMediaRepository(database: $0.db) }
                 }
             }
             
@@ -22,6 +23,7 @@ public extension Application {
             var makeRefreshTokenRepository: ((Application) -> any RefreshTokenRepository)?
             var makePasswordTokenRepository: ((Application) -> any PasswordTokenRepository)?
             var makePostRepository: ((Application) -> any PostRepository)?
+            var makeMediaRepository: ((Application) -> any MediaRepository)?
             init() { }
         }
         

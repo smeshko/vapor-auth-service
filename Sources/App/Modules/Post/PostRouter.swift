@@ -10,8 +10,7 @@ struct PostRouter: RouteCollection {
         
         postsAPI.get("all", use: controller.all)
         postsAPI
-            .grouped(":userID")
-            .get("all", use: controller.userPosts)
+            .get("all", ":userID", use: controller.userPosts)
 
         let protectedPostsAPI = postsAPI
             .grouped(UserPayloadAuthenticator())

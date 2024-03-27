@@ -7,4 +7,5 @@ extension Request {
     var emailTokens: any EmailTokenRepository { application.repositories.emailTokens.for(self) }
     var passwordTokens: any PasswordTokenRepository { application.repositories.passwordTokens.for(self) }
     var posts: any PostRepository { application.repositories.posts.for(self) }
+    var media: any MediaRepository { application.repositories.media.for(self) }
 }

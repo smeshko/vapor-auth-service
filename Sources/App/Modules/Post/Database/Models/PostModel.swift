@@ -12,11 +12,11 @@ final class PostModel: DatabaseModelInterface {
     @Parent(key: FieldKeys.v1.userId)
     var user: UserAccountModel
 
-    @OptionalField(key: FieldKeys.v1.imageURLs)
-    var images: [String]?
+    @OptionalField(key: FieldKeys.v1.imageIDs)
+    var imageIDs: [UUID]?
     
-    @OptionalField(key: FieldKeys.v1.videoURLs)
-    var videos: [String]?
+    @OptionalField(key: FieldKeys.v1.videoIDs)
+    var videoIDs: [UUID]?
     
     @Field(key: FieldKeys.v1.tags)
     var tags: [String]
@@ -29,15 +29,15 @@ final class PostModel: DatabaseModelInterface {
     init(
         id: UUID? = nil,
         user: UserAccountModel,
-        images: [String]? = nil,
-        videos: [String]? = nil,
+        imageIDs: [UUID]? = nil,
+        videoIDs: [UUID]? = nil,
         text: String,
         tags: [String] = []
     ) throws {
         self.id = id
         self.$user.id = try user.requireID()
-        self.images = images
-        self.videos = videos
+        self.imageIDs = imageIDs
+        self.videoIDs = videoIDs
         self.text = text
         self.tags = tags
     }
@@ -47,8 +47,8 @@ extension PostModel {
     struct FieldKeys {
         struct v1 {
             static var userId: FieldKey { "user_id" }
-            static var imageURLs: FieldKey { "image_urls" }
-            static var videoURLs: FieldKey { "video_urls" }
+            static var imageIDs: FieldKey { "image_ids" }
+            static var videoIDs: FieldKey { "video_ids" }
             static var text: FieldKey { "test" }
             static var tags: FieldKey { "tags" }
         }

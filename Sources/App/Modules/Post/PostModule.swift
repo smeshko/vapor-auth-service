@@ -2,11 +2,13 @@ import Common
 import Vapor
 
 struct PostModule: ModuleInterface {
-    let router = PostRouter()
+    let postRouter = PostRouter()
+    let mediaRouter = MediaRouter()
     
     func boot(_ app: Application) throws {
         app.migrations.add(PostMigrations.v1())
         
-        try router.boot(routes: app.routes)
+        try postRouter.boot(routes: app.routes)
+        try mediaRouter.boot(routes: app.routes)
     }
 }

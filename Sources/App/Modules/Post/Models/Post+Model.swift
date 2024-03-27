@@ -4,12 +4,17 @@ import Vapor
 
 extension Post.List.Response: Content {}
 extension Post.Create.Response: Content {}
+extension Media.Upload.Response: Content {}
 
 extension Post.Create.Response {
     init(
         from model: PostModel
     ) {
-        self.init(text: model.text)
+        self.init(
+            text: model.text,
+            imageIDs: model.imageIDs ?? [],
+            videoIDs: model.videoIDs ?? []
+        )
     }
 }
 
@@ -19,8 +24,8 @@ extension Post.List.Response {
     ) {
         self.init(
             text: model.text,
-            imageURLs: model.images ?? [],
-            videoURLs: model.videos ?? [],
+            imageIDs: model.imageIDs ?? [],
+            videoIDs: model.videoIDs ?? [],
             tags: model.tags
         )
     }

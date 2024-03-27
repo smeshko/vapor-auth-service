@@ -71,6 +71,41 @@ extension Environment {
     }
 }
 
+// MARK: - AWS
+extension Environment {
+    static var awsAccessKey: String {
+        if let key = Environment.get("AWS_ACCESS_KEY") {
+            return key
+        } else {
+            fatalError("AWS_ACCESS_KEY is empty")
+        }
+    }
+    
+    static var awsSecretAccessKey: String {
+        if let key = Environment.get("AWS_SECRET_ACCESS_KEY") {
+            return key
+        } else {
+            fatalError("AWS_SECRET_ACCESS_KEY is empty")
+        }
+    }
+    
+    static var awsRegion: String {
+        if let key = Environment.get("AWS_REGION") {
+            return key
+        } else {
+            fatalError("AWS_REGION is empty")
+        }
+    }
+    
+    static var awsS3BucketName: String {
+        if let key = Environment.get("AWS_S3_BUCKET_NAME") {
+            return key
+        } else {
+            fatalError("AWS_S3_BUCKET_NAME is empty")
+        }
+    }
+}
+
 // MARK: - Setup
 extension Environment {
     static var named: String {

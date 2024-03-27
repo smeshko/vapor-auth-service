@@ -1,15 +1,15 @@
 import Vapor
 
-protocol EmailProvider {
-    @discardableResult
-    func send(_ email: any Email) async throws -> HTTPStatus
+protocol FileStorageProvider {
+    func save(_ file: ByteBuffer, key: String) async throws
+    func fetch(_ fileKey: String) async throws -> Data
 }
 
 extension Application {
-    public struct Email {
-        typealias EmailFactory = (Application) -> EmailProvider
+    public struct FileStorage {
+        typealias FileStorageFactory = (Application) -> FileStorageProvider
         
-        struct Provider {
+        struct Provider {            
             public let run: ((Application) -> Void)
             
             public init(_ run: @escaping ((Application) -> Void)) {
@@ -20,7 +20,7 @@ extension Application {
         let app: Application
         
         private final class Storage {
-            var makeClient: EmailFactory?
+            var makeClient: FileStorageFactory?
             
             init() {}
         }
@@ -37,11 +37,11 @@ extension Application {
             return app.storage[Key.self]!
         }
         
-        func use(_ make: @escaping EmailFactory) {
+        func use(_ make: @escaping FileStorageFactory) {
             storage.makeClient = make
         }
         
-        func use(_ provider: Application.Email.Provider) {
+        func use(_ provider: Application.FileStorage.Provider) {
             provider.run(app)
         }
         
@@ -49,20 +49,20 @@ extension Application {
             app.storage[Key.self] = .init()
         }
         
-        func client() -> EmailProvider {
+        func client() -> FileStorageProvider {
             guard let makeClient = storage.makeClient else {
-                fatalError("Email provider not configured, use: app.email.use(.real)")
+                fatalError("FileStorage provider not configured, use: app.email.use(.real)")
             }
             
             return makeClient(app)
         }
     }
     
-    public var email: Application.Email {
+    public var fileStorage: Application.FileStorage {
         .init(app: self)
     }
     
-    func emailProvider() -> EmailProvider {
-        email.client()
+    func fileStorageProvider() -> FileStorageProvider {
+        fileStorage.client()
     }
 }

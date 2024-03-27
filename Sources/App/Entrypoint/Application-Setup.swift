@@ -22,6 +22,9 @@ extension Application {
 
     func setupMiddleware() {
         middleware = .init()
+        let file = FileMiddleware(publicDirectory: directory.publicDirectory)
+        middleware.use(file)
+        routes.defaultMaxBodySize = "10mb"
         middleware.use(ErrorMiddleware.custom(environment: environment))
         middleware.use(FileMiddleware(publicDirectory: directory.publicDirectory))
     }
@@ -31,7 +34,8 @@ extension Application {
             UserModule(),
             AuthModule(),
             FrontendModule(),
-            PostModule()
+            PostModule(),
+            MediaModule()
         ]
         
         if environment != .testing {
@@ -53,7 +57,8 @@ extension Application {
             return
         }
         let postgresConfig = SQLPostgresConfiguration(
-            hostname: Environment.databaseHost,
+//            hostname: Environment.databaseHost,
+            hostname: "localhost",
             port: Environment.databasePort,
             username: Environment.databaseUser,
             password: Environment.databasePassword,
@@ -72,5 +77,7 @@ extension Application {
     func setupServices() {
         randomGenerators.use(.random)
         repositories.use(.database)
+        email.use(.brevo)
+        fileStorage.use(.s3)
     }
 }

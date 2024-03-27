@@ -19,11 +19,19 @@ struct BrevoClient: EmailProvider {
         if ![HTTPStatus.ok, .created].contains(response.status)  {
             throw AuthenticationError.emailVerificationFailed
         }
-
+        
         return .ok
     }
-
+    
     private var mailURI: URI {
         URI(string: Environment.mailProviderUrl)
+    }
+}
+
+extension Application.Email.Provider {
+    public static var brevo: Self {
+        .init {
+            $0.email.use(BrevoClient.init(app:))
+        }
     }
 }
