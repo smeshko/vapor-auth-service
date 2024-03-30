@@ -18,7 +18,7 @@ struct PostController {
         
         try await req.posts.create(postModel)
         
-        return Post.Create.Response(from: postModel)
+        return try Post.Create.Response(from: postModel)
     }
     
     func all(_ req: Request) async throws -> [Post.List.Response] {
@@ -56,15 +56,18 @@ public extension Post {
         }
         
         public struct Response: Codable, Equatable {
+            public let id: UUID
             public let text: String
             public let imageIDs: [UUID]
             public let videoIDs: [UUID]
             
             public init(
+                id: UUID,
                 text: String,
                 imageIDs: [UUID],
                 videoIDs: [UUID]
             ) {
+                self.id = id
                 self.text = text
                 self.imageIDs = imageIDs
                 self.videoIDs = videoIDs
@@ -79,17 +82,20 @@ public extension Post {
         }
         
         public struct Response: Codable, Equatable {
+            public let id: UUID
             public let text: String
             public let imageIDs: [UUID]
             public let videoIDs: [UUID]
             public let tags: [String]
             
             public init(
+                id: UUID,
                 text: String,
                 imageIDs: [UUID],
                 videoIDs: [UUID],
                 tags: [String]
             ) {
+                self.id = id
                 self.text = text
                 self.imageIDs = imageIDs
                 self.videoIDs = videoIDs

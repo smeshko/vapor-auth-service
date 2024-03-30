@@ -9,7 +9,7 @@ struct MediaRouter: RouteCollection {
             .grouped("media")
         
         let protectedAPI = mediaAPI
-            .grouped(UserPayloadAuthenticator())
+            .grouped(UserAccountModel.guardMiddleware())
         
         protectedAPI.on(
             .POST, "upload",

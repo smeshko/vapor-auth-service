@@ -9,8 +9,9 @@ extension Media.Upload.Response: Content {}
 extension Post.Create.Response {
     init(
         from model: PostModel
-    ) {
-        self.init(
+    ) throws {
+        try self.init(
+            id: model.requireID(),
             text: model.text,
             imageIDs: model.imageIDs ?? [],
             videoIDs: model.videoIDs ?? []
@@ -21,8 +22,9 @@ extension Post.Create.Response {
 extension Post.List.Response {
     init(
         from model: PostModel
-    ) {
-        self.init(
+    ) throws {
+        try self.init(
+            id: model.requireID(),
             text: model.text,
             imageIDs: model.imageIDs ?? [],
             videoIDs: model.videoIDs ?? [],

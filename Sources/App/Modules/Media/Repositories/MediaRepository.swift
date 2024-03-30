@@ -6,8 +6,6 @@ import Vapor
 protocol MediaRepository: Repository {
     func find(id: UUID?) async throws -> MediaModel?
     func create(_ model: MediaModel) async throws
-    func all() async throws -> [MediaModel]
-    func all(forPostID id: UUID) async throws -> [MediaModel]
     func update(_ model: MediaModel) async throws
 }
 
@@ -22,17 +20,6 @@ struct DatabaseMediaRepository: MediaRepository, DatabaseRepository {
     
     func create(_ model: MediaModel) async throws {
         try await model.create(on: database)
-    }
-    
-    func all() async throws -> [MediaModel] {
-        try await MediaModel.query(on: database).all()
-    }
-    
-    func all(forPostID id: UUID) async throws -> [MediaModel] {
-        []
-//        try await PostModel.query(on: database)
-//            .filter(\.$user.$id == id)
-//            .all()
     }
     
     func update(_ model: MediaModel) async throws {

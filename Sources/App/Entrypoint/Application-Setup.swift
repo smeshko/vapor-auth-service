@@ -27,6 +27,7 @@ extension Application {
         routes.defaultMaxBodySize = "10mb"
         middleware.use(ErrorMiddleware.custom(environment: environment))
         middleware.use(FileMiddleware(publicDirectory: directory.publicDirectory))
+        middleware.use(UserPayloadAuthenticator())
     }
     
     func setupModules() throws {
@@ -35,7 +36,8 @@ extension Application {
             AuthModule(),
             FrontendModule(),
             PostModule(),
-            MediaModule()
+            MediaModule(),
+            CommentModule()
         ]
         
         if environment != .testing {

@@ -46,7 +46,6 @@ struct S3FileStorage: FileStorageProvider {
         )
         
         let getResponse = try await s3.getObject(getRequest)
-        let data = getResponse.body?.asData()
         
         guard let data = getResponse.body?.asData(), !data.isEmpty else {
             throw Abort(.badRequest)

@@ -1,3 +1,4 @@
+import Entities
 import Vapor
 
 struct AuthRouter: RouteCollection {
@@ -18,7 +19,7 @@ struct AuthRouter: RouteCollection {
         api.post("reset-password", use: controller.resetPassword)
         
         api
-            .grouped(UserPayloadAuthenticator())
+            .grouped(UserAccountModel.guardMiddleware(throwing: AuthenticationError.userNotFound))
             .post("logout", use: controller.logout)
     }
 }

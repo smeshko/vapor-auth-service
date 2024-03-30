@@ -4,7 +4,6 @@ import Fluent
 import Vapor
 
 struct MediaController {
-    
     func upload(_ req: Request) async throws -> Media.Upload.Response {
         let input = try req.content.decode(Media.Upload.Request.self)
         

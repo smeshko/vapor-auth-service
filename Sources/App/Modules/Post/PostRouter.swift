@@ -13,7 +13,7 @@ struct PostRouter: RouteCollection {
             .get("all", ":userID", use: controller.userPosts)
 
         let protectedPostsAPI = postsAPI
-            .grouped(UserPayloadAuthenticator())
+            .grouped(UserAccountModel.guardMiddleware())
 
         protectedPostsAPI.post("create", use: controller.create)
     }

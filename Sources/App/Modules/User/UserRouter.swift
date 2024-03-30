@@ -1,4 +1,5 @@
 import Vapor
+import Entities
 
 struct UserRouter: RouteCollection {
     
@@ -10,7 +11,7 @@ struct UserRouter: RouteCollection {
             .grouped("user")
         
         let protectedAPI = api
-            .grouped(UserPayloadAuthenticator())
+            .grouped(UserAccountModel.guardMiddleware(throwing: AuthenticationError.userNotFound))
         
         protectedAPI.delete("delete", use: controller.delete)
         protectedAPI.get("me", use: controller.getCurrentUser)

@@ -11,8 +11,6 @@ struct UserModule: ModuleInterface {
             app.migrations.add(UserMigrations.seed())
         }
         
-        app.middleware.use(UserPayloadAuthenticator())
-        
         try router.boot(routes: app.routes)
     }
 }

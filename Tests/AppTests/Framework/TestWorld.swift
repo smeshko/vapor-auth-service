@@ -7,26 +7,28 @@ class TestWorld {
     let app: Application
     
     // Repositories
-    private var tokenRepository: TestRefreshTokenRepository
-    private var userRepository: TestUserRepository
-    private var emailTokenRepository: TestEmailTokenRepository
-    private var passwordTokenRepository: TestPasswordTokenRepository
+    private let tokenRepository: TestRefreshTokenRepository = .init()
+    private let userRepository: TestUserRepository = .init()
+    private let emailTokenRepository: TestEmailTokenRepository = .init()
+    private let passwordTokenRepository: TestPasswordTokenRepository = .init()
+    private let postRepository: TestPostRepository = .init()
+    private let mediaRepository: TestMediaRepository = .init()
+    private let commentRepository: TestCommentRepository = .init()
     
     init(app: Application) throws {
         self.app = app
         
         try app.jwt.signers.use(.es256(key: .generate()))
         
-        self.tokenRepository = .init()
-        self.userRepository = .init()
-        self.emailTokenRepository = .init()
-        self.passwordTokenRepository = .init()
-        
         app.repositories.use { _ in self.tokenRepository }
         app.repositories.use { _ in self.userRepository }
         app.repositories.use { _ in self.emailTokenRepository }
         app.repositories.use { _ in self.passwordTokenRepository }
+        app.repositories.use { _ in self.postRepository }
+        app.repositories.use { _ in self.mediaRepository }
+        app.repositories.use { _ in self.commentRepository }
         
         app.email.use(.fake)
+        app.fileStorage.use(.fake)
     }
 }
