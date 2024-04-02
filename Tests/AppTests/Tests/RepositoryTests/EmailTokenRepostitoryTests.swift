@@ -13,7 +13,7 @@ final class EmailTokenRepositoryTests: XCTestCase {
         repository = DatabaseEmailTokenRepository(database: app.db)
         try app.autoMigrate().wait()
         
-        user = .init(email: "test@test.com", password: "123", fullName: "Test")
+        user = .init(email: "test@test.com", password: "123")
     }
     
     override func tearDownWithError() throws {

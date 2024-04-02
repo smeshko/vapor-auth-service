@@ -18,7 +18,7 @@ struct EmailVerifier {
                 email: "noreply@sender.com"
             ),
             to: [.init(
-                name: user.fullName,
+                name: "\(user.firstName ?? "") \(user.lastName ?? "")",
                 email: user.email
             )],
             subject: "Verify your account",
@@ -42,7 +42,7 @@ extension Application {
 extension Request {
     var emailVerifier: EmailVerifier {
         .init(
-            emailTokenRepository: emailTokens,
+            emailTokenRepository: repositories.emailTokens,
             generator: application.random,
             application: application
         )

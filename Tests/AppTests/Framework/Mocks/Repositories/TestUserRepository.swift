@@ -14,6 +14,8 @@ class TestUserRepository: UserRepository, TestRepository {
     
     func create(_ model: UserAccountModel) async throws {
         model.id = model.id ?? UUID()
+        model.$posts.value = []
+        model.$comments.value = []
         users.append(model)
     }
 
@@ -25,6 +27,10 @@ class TestUserRepository: UserRepository, TestRepository {
         users.first(where: { $0.email == email })
     }
     
+    func find(appleUserIdentifier: String) async throws -> UserAccountModel? {
+        users.first(where: { $0.appleUserIdentifier == appleUserIdentifier })
+    }
+    
     func set<Field>(_ field: KeyPath<UserAccountModel, Field>, to value: Field.Value, for userID: UUID) async throws where Field : QueryableProperty, Field.Model == UserAccountModel {
         let user = users.first(where: { $0.id == userID })!
         user[keyPath: field].value = value
@@ -34,7 +40,7 @@ class TestUserRepository: UserRepository, TestRepository {
         users.count
     }
     
-    func find(id: UUID?) async throws -> UserAccountModel? {
+    func find(id: UUID) async throws -> UserAccountModel? {
         users.first(where: { $0.id == id })
     }
     

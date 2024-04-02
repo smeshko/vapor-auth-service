@@ -12,6 +12,8 @@ public extension Application {
                     $0.repositories.use { DatabasePostRepository(database: $0.db) }
                     $0.repositories.use { DatabaseMediaRepository(database: $0.db) }
                     $0.repositories.use { DatabaseCommentRepository(database: $0.db) }
+                    $0.repositories.use { DatabaseChallengeTokenRepository(database: $0.db) }
+                    $0.repositories.use { DatabaseBusinessRepository(database: $0.db) }
                 }
             }
             
@@ -26,6 +28,8 @@ public extension Application {
             var makePostRepository: ((Application) -> any PostRepository)?
             var makeMediaRepository: ((Application) -> any MediaRepository)?
             var makeCommentRepository: ((Application) -> any CommentRepository)?
+            var makeChallengeTokenRepository: ((Application) -> any ChallengeTokenRepository)?
+            var makeBusinessRepository: ((Application) -> any BusinessRepository)?
             init() { }
         }
         

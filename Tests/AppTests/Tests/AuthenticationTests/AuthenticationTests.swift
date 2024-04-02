@@ -19,14 +19,13 @@ final class AuthenticationTests: XCTestCase {
     }
     
     func testGettingCurrentUser() async throws {
-        let user = UserAccountModel(email: "test@test.com", password: "123", fullName: "Test User", isAdmin: true)
+        let user = UserAccountModel(email: "test@test.com", password: "123", isAdmin: true)
         try await app.repositories.users.create(user)
         
         try await app.test(.GET, "api/user/me", user: user, afterResponse: { res in
             XCTAssertEqual(res.status, .ok)
             XCTAssertContent(User.Detail.Response.self, res) { userContent in
                 XCTAssertEqual(userContent.email, "test@test.com")
-                XCTAssertEqual(userContent.fullName, "Test User")
                 XCTAssertEqual(userContent.isAdmin, true)
                 XCTAssertEqual(userContent.id, user.id)
             }

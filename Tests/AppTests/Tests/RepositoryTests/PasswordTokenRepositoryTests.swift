@@ -13,7 +13,7 @@ final class PasswordTokenRepositoryTests: XCTestCase {
         repository = DatabasePasswordTokenRepository(database: app.db)
         try app.autoMigrate().wait()
         
-        user = .init(email: "test@test.com", password: "123", fullName: "Test User")
+        user = .init(email: "test@test.com", password: "123")
         try user.create(on: app.db).wait()
     }
     

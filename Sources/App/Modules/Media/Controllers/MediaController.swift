@@ -17,7 +17,7 @@ struct MediaController {
             key: "\(id).\(input.ext)"
         )
         
-        try await req.media.create(model)
+        try await req.repositories.media.create(model)
         try await req.fileStorage.save(buffer, key: model.key)
 
         return .init(id: id, type: input.type)
@@ -26,7 +26,7 @@ struct MediaController {
     func download(_ req: Request) async throws -> Media.Download.Response {
         let mediaId = try req.parameters.require("mediaID", as: UUID.self)
 
-        guard let model = try await req.media.find(id: mediaId) else {
+        guard let model = try await req.repositories.media.find(id: mediaId) else {
             throw Abort(.notFound)
         }
         

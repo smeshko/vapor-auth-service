@@ -14,8 +14,7 @@ final class RefreshTokenRepositoryTests: XCTestCase {
         try app.autoMigrate().wait()
         user = UserAccountModel(
             email: "test@test.com",
-            password: "123",
-            fullName: "Test User"
+            password: "123"
         )
     }
     

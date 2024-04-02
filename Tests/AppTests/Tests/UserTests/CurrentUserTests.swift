@@ -14,13 +14,7 @@ final class CurrentUserTests: XCTestCase {
         try configure(app)
         testWorld = try TestWorld(app: app)
         
-        user = try UserAccountModel(
-            email: "test@test.com",
-            password: app.password.hash("password"),
-            fullName: "Test User",
-            isEmailVerified: true
-        )
-
+        user = try UserAccountModel.mock(app: app)
     }
     
     override func tearDown() {
@@ -32,7 +26,8 @@ final class CurrentUserTests: XCTestCase {
         try await app.test(.GET, mePath, user: user) { response in
             XCTAssertContent(User.Detail.Response.self, response) { userResponse in
                 XCTAssertEqual(userResponse.email, "test@test.com")
-                XCTAssertEqual(userResponse.fullName, "Test User")
+                XCTAssertEqual(userResponse.firstName, "John")
+                XCTAssertEqual(userResponse.lastName, "Doe")
                 XCTAssertEqual(userResponse.isEmailVerified, true)
             }
         }

@@ -11,12 +11,12 @@ struct UserController {
     
     func delete(_ req: Request) async throws -> HTTPStatus {
         let user = try req.auth.require(UserAccountModel.self)
-        try await req.users.delete(id: user.requireID())
+        try await req.repositories.users.delete(id: user.requireID())
         return .ok
     }
     
     func list(_ req: Request) async throws -> [User.List.Response] {
-        try await req.users.all().map { model in
+        try await req.repositories.users.all().map { model in
             try User.List.Response(from: model)
         }
     }
@@ -29,11 +29,15 @@ struct UserController {
             user.email = email
         }
         
-        if let name = request.fullName {
-            user.fullName = name
+        if let firstName = request.firstName {
+            user.firstName = firstName
         }
         
-        try await req.users.update(user)
+        if let lastName = request.lastName {
+            user.lastName = lastName
+        }
+        
+        try await req.repositories.users.update(user)
         return try .init(from: user)
     }
 }

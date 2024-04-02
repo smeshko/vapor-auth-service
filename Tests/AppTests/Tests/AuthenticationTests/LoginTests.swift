@@ -22,12 +22,7 @@ final class LoginTests: XCTestCase {
     func testLoginHappyPath() async throws {
         app.passwords.use(.plaintext)
         
-        let user = try UserAccountModel(
-            email: "test@test.com",
-            password: app.password.hash("password"),
-            fullName: "Test User",
-            isEmailVerified: true
-        )
+        let user = try UserAccountModel.mock(app: app)
         
         try await app.repositories.users.create(user)
         let loginRequest = Auth.Login.Request(email: "test@test.com", password: "password")
@@ -38,7 +33,8 @@ final class LoginTests: XCTestCase {
             XCTAssertEqual(res.status, .ok)
             XCTAssertContent(Auth.Login.Response.self, res) { login in
                 XCTAssertEqual(login.user.email, "test@test.com")
-                XCTAssertEqual(login.user.fullName, "Test User")
+                XCTAssertEqual(login.user.firstName, "John")
+                XCTAssertEqual(login.user.lastName, "Doe")
                 XCTAssert(!login.token.refreshToken.isEmpty)
                 XCTAssert(!login.token.accessToken.isEmpty)
             }
@@ -58,12 +54,7 @@ final class LoginTests: XCTestCase {
     func testLoginWithIncorrectPasswordFails() async throws {
         app.passwords.use(.plaintext)
 
-        let user = UserAccountModel(
-            email: "test@test.com",
-            password: "password",
-            fullName: "Test User",
-            isEmailVerified: true
-        )
+        let user = try UserAccountModel.mock(app: app)
 
         try await app.repositories.users.create(user)
         
@@ -79,12 +70,7 @@ final class LoginTests: XCTestCase {
     func testLoginRequiresEmailVerification() async throws {
         app.passwords.use(.plaintext)
         
-        let user = UserAccountModel(
-            email: "test@test.com",
-            password: "password",
-            fullName: "Test User",
-            isEmailVerified: false
-        )
+        let user = try UserAccountModel.mock(app: app, isEmailVerified: false)
 
         try await app.repositories.users.create(user)
         
@@ -100,12 +86,7 @@ final class LoginTests: XCTestCase {
     func testLoginDeletesOldRefreshTokens() async throws {
         app.passwords.use(.plaintext)
         
-        let user = UserAccountModel(
-            email: "test@test.com",
-            password: "password",
-            fullName: "Test User",
-            isEmailVerified: true
-        )
+        let user = try UserAccountModel.mock(app: app)
 
         try await app.repositories.users.create(user)
         

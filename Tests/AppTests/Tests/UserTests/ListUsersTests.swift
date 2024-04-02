@@ -17,7 +17,6 @@ final class ListUsersTests: XCTestCase {
         user = try UserAccountModel(
             email: "test@test.com",
             password: app.password.hash("password"),
-            fullName: "Test User",
             isAdmin: true,
             isEmailVerified: true
         )
@@ -40,7 +39,6 @@ final class ListUsersTests: XCTestCase {
         let nonAdmin = try UserAccountModel(
             email: "test@test.com",
             password: app.password.hash("password"),
-            fullName: "Test User",
             isEmailVerified: true
         )
         try await app.repositories.users.create(nonAdmin)

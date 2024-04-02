@@ -7,6 +7,7 @@ let prometheus = Target.Dependency.product(name: "SwiftPrometheus", package: "Sw
 let entities = Target.Dependency.product(name: "Entities", package: "id5-entities")
 let common = Target.Dependency.product(name: "Common", package: "id5-common")
 let s3 = Target.Dependency.product(name: "SotoS3", package: "soto")
+let attest = Target.Dependency.product(name: "AppAttest", package: "app-attest")
 
 let package = Package(
     name: "id5-auth-service",
@@ -24,15 +25,15 @@ let package = Package(
         .package(url: "https://github.com/vapor/jwt.git", from: "4.0.0"),
         .package(url: "https://github.com/binarybirds/swift-html", from: "1.7.0"),
         .package(url: "https://github.com/soto-project/soto.git", from: "6.0.0"),
+        .package(url: "https://github.com/smeshko/app-attest", branch: "main"),
         .package(url: "https://github.com/smeshko/id5-entities", branch: "main"),
         .package(url: "https://github.com/smeshko/id5-common", branch: "main")
-
     ],
     targets: [
         .executableTarget(
             name: "App",
             dependencies: [
-                common, entities, vapor, fluent, prometheus, s3,
+                common, entities, vapor, fluent, prometheus, s3, attest,
                 .product(name: "SwiftHtml", package: "swift-html"),
                 .product(name: "SwiftSvg", package: "swift-html"),
                 .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),

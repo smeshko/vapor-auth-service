@@ -19,7 +19,7 @@ final class UserRepositoryTests: XCTestCase {
     }
     
     func testCreatingUser() async throws {
-        let user = UserAccountModel(email: "test@test.com", password: "123", fullName: "Test User")
+        let user = UserAccountModel(email: "test@test.com", password: "123")
         try await repository.create(user)
         
         XCTAssertNotNil(user.id)
@@ -29,7 +29,7 @@ final class UserRepositoryTests: XCTestCase {
     }
     
     func testDeletingUser() async throws {
-        let user = UserAccountModel(email: "test@test.com", password: "123", fullName: "Test User")
+        let user = UserAccountModel(email: "test@test.com", password: "123")
         try await user.create(on: app.db)
         let count = try await UserAccountModel.query(on: app.db).count()
         XCTAssertEqual(count, 1)
@@ -40,8 +40,8 @@ final class UserRepositoryTests: XCTestCase {
     }
     
     func testGetAllUsers() async throws {
-        let user = UserAccountModel(email: "test@test.com", password: "123", fullName: "Test User")
-        let user2 = UserAccountModel(email: "test2@test.com", password: "123", fullName: "Test User 2")
+        let user = UserAccountModel(email: "test@test.com", password: "123")
+        let user2 = UserAccountModel(email: "test2@test.com", password: "123")
         
         try await user.create(on: app.db)
         try await user2.create(on: app.db)
@@ -51,7 +51,7 @@ final class UserRepositoryTests: XCTestCase {
     }
     
     func testFindUserById() async throws {
-        let user = UserAccountModel(email: "test@test.com", password: "123", fullName: "Test User")
+        let user = UserAccountModel(email: "test@test.com", password: "123")
         try await user.create(on: app.db)
         
         let userFound = try await repository.find(id: user.requireID())
@@ -59,7 +59,7 @@ final class UserRepositoryTests: XCTestCase {
     }
     
     func testSetFieldValue() async throws {
-        let user = UserAccountModel(email: "test@test.com", password: "123", fullName: "Test User", isEmailVerified: false)
+        let user = UserAccountModel(email: "test@test.com", password: "123", isEmailVerified: false)
         try await user.create(on: app.db)
         user.isEmailVerified = true
         try await repository.update(user)

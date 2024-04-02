@@ -119,4 +119,12 @@ extension Environment {
             fatalError("BASE_URL is empty")
         }
     }
+    
+    static var appIdentifier: String {
+        if let appIdentifier = Environment.get("APPLICATION_IDENTIFIER") {
+            return appIdentifier
+        } else {
+            fatalError("APPLICATION_IDENTIFIER is empty")
+        }
+    }
 }

@@ -17,12 +17,7 @@ final class PatchTests: XCTestCase {
         try configure(app)
         self.testWorld = try TestWorld(app: app)
         
-        user = try UserAccountModel(
-            email: "test@test.com",
-            password: app.password.hash("password"),
-            fullName: "Test User",
-            isEmailVerified: true
-        )
+        user = try UserAccountModel.mock(app: app)
     }
     
     override func tearDown() {
@@ -34,13 +29,15 @@ final class PatchTests: XCTestCase {
         
         let patchContent = User.Update.Request(
             email: "new_mail@test.com",
-            fullName: "New name"
+            firstName: "New",
+            lastName: "name"
         )
         
         try await app.test(.PATCH, patchPath, user: user, content: patchContent, afterResponse: { res in
             XCTAssertContent(User.Update.Response.self, res) { patchContent in
                 XCTAssertEqual(patchContent.email, "new_mail@test.com")
-                XCTAssertEqual(patchContent.fullName, "New name")
+                XCTAssertEqual(patchContent.firstName, "New")
+                XCTAssertEqual(patchContent.lastName, "name")
             }
         })
     }

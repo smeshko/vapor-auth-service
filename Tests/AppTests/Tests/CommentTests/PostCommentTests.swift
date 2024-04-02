@@ -20,12 +20,7 @@ final class PostCommentTests: XCTestCase {
         try configure(app)
         testWorld = try TestWorld(app: app)
         
-        user = try UserAccountModel(
-            email: "test@test.com",
-            password: app.password.hash("password"),
-            fullName: "Test User",
-            isEmailVerified: true
-        )
+        user = try UserAccountModel.mock(app: app)
         
         request = .init(text: "This is a comment")
     }

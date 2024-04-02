@@ -13,7 +13,7 @@ struct UserCredentialsAuthenticator: AsyncCredentialsAuthenticator {
         try Auth.Login.Request.validate(content: req)
         let loginRequest = try req.content.decode(Auth.Login.Request.self)
         
-        guard let user = try await req.users.find(email: loginRequest.email) else {
+        guard let user = try await req.repositories.users.find(email: loginRequest.email) else {
             throw AuthenticationError.invalidEmailOrPassword
         }
         
@@ -21,7 +21,7 @@ struct UserCredentialsAuthenticator: AsyncCredentialsAuthenticator {
             throw AuthenticationError.emailIsNotVerified
         }
         
-        guard try await req.password.async.verify(loginRequest.password, created: user.password) else {
+        guard try await req.password.async.verify(loginRequest.password, created: user.password ?? "") else {
             throw AuthenticationError.invalidEmailOrPassword
         }
         

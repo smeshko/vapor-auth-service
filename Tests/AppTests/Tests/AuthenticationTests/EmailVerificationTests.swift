@@ -20,7 +20,7 @@ final class EmailVerificationTests: XCTestCase {
     }
     
     func testVerifyingEmailHappyPath() async throws {
-        let user = UserAccountModel(email: "test@test.com", password: "123", fullName: "Test")
+        let user = UserAccountModel(email: "test@test.com", password: "123")
         try await app.repositories.users.create(user)
         let expectedHash = SHA256.hash("token123")
         
@@ -49,7 +49,7 @@ final class EmailVerificationTests: XCTestCase {
     }
     
     func testVerifyingEmailWithExpiredTokenFails() async throws {
-        let user = UserAccountModel(email: "test@test.com", password: "123", fullName: "Test")
+        let user = UserAccountModel(email: "test@test.com", password: "123")
         try await app.repositories.users.create(user)
         let expectedHash = SHA256.hash("token123")
         let emailToken = EmailTokenModel(userID: try user.requireID(), value: expectedHash, expiresAt: Date().addingTimeInterval(-15.minutes - 1) )

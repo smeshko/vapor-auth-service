@@ -17,7 +17,7 @@ final class TokenTests: XCTestCase {
         try configure(app)
         self.testWorld = try TestWorld(app: app)
         
-        user = UserAccountModel(email: "test@test.com", password: "123", fullName: "Test User")
+        user = UserAccountModel(email: "test@test.com", password: "123")
     }
     
     override func tearDown() {

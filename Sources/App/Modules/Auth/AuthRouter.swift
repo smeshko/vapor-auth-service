@@ -14,6 +14,7 @@ struct AuthRouter: RouteCollection {
             .post("sign-in", use: controller.signIn)
         
         api.post("sign-up", use: controller.signUp)
+        api.post("apple-auth", use: controller.authWithApple)
         
         api.post("refresh", use: controller.refreshAccessToken)
         api.post("reset-password", use: controller.resetPassword)

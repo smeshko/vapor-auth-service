@@ -25,7 +25,7 @@ final class ResetPasswordTests: XCTestCase {
     func testResetPassword() async throws {
         app.randomGenerators.use(.rigged(value: "passwordtoken"))
         
-        let user = UserAccountModel(email: "test@test.com", password: "123", fullName: "Test User")
+        let user = UserAccountModel(email: "test@test.com", password: "123")
         try await app.repositories.users.create(user)
         
         let resetPasswordRequest = Auth.PasswordReset.Request(email: "test@test.com")
@@ -48,7 +48,7 @@ final class ResetPasswordTests: XCTestCase {
     }
 
     func testRecoverAccount() async throws {
-        let user = UserAccountModel(email: "test@test.com", password: "oldpassword", fullName: "Test User")
+        let user = UserAccountModel(email: "test@test.com", password: "oldpassword")
         try await app.repositories.users.create(user)
         let hashedToken = SHA256.hash("passwordtoken")
         let tokenModel = try PasswordTokenModel(userID: user.requireID(), value: hashedToken)
@@ -61,7 +61,7 @@ final class ResetPasswordTests: XCTestCase {
         try await app.test(.POST, "reset-password?token=\(hashedToken)", content: recoverRequest, afterResponse: { res in
             XCTAssertEqual(res.status, .ok)
             let user = try await app.repositories.users.find(id: user.requireID())!
-            try XCTAssertTrue(BCryptDigest().verify("newpassword", created: user.password))
+            try XCTAssertTrue(BCryptDigest().verify("newpassword", created: user.password!))
             let count = try await app.repositories.passwordTokens.count()
             XCTAssertEqual(count, 0)
         })

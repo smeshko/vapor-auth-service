@@ -17,7 +17,6 @@ final class DeleteUserTests: XCTestCase {
         user = try UserAccountModel(
             email: "test@test.com",
             password: app.password.hash("password"),
-            fullName: "Test User",
             isEmailVerified: true
         )
 

@@ -27,7 +27,8 @@ final class RegisterTests: XCTestCase {
         let data = Auth.SignUp.Request(
             email: "test@test.com",
             password: "password123",
-            fullName: "Test User"
+            firstName: "Test",
+            lastName: "User"
         )
         
         try app.test(.POST, registerPath, beforeRequest: { req in
@@ -36,7 +37,8 @@ final class RegisterTests: XCTestCase {
             XCTAssertEqual(res.status, .ok)
             XCTAssertContent(Auth.SignUp.Response.self, res) { signup in
                 XCTAssertEqual(signup.user.email, "test@test.com")
-                XCTAssertEqual(signup.user.fullName, "Test User")
+                XCTAssertEqual(signup.user.firstName, "Test")
+                XCTAssertEqual(signup.user.lastName, "User")
                 XCTAssert(!signup.token.refreshToken.isEmpty)
                 XCTAssert(!signup.token.accessToken.isEmpty)
             }
@@ -51,16 +53,14 @@ final class RegisterTests: XCTestCase {
         
         let user = UserAccountModel(
             email: "test@test.com",
-            password: "123",
-            fullName: "Test user 1"
+            password: "123"
         )
 
         try await user.create(on: app.db)
 
         let registerRequest = Auth.SignUp.Request(
             email: "test@test.com",
-            password: "password123",
-            fullName: "Test User 2"
+            password: "password123"
         )
         
         try await app.test(.POST, registerPath, beforeRequest: { req in

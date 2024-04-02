@@ -6,14 +6,14 @@ struct FrontendController {
     func verifyEmail(_ req: Request) async throws -> Response {
         let token = try req.query.get(String.self, at: "token")
         
-        guard let token = try await req.emailTokens.find(token: token) else {
+        guard let token = try await req.repositories.emailTokens.find(token: token) else {
             return req.templates.renderHtml(OutcomeMessageTemplate(.init(
                 text: "Token not found, please request verification again.", 
                 title: "Token not found"
             )))
         }
         
-        try await req.emailTokens.delete(id: token.requireID())
+        try await req.repositories.emailTokens.delete(id: token.requireID())
         
         guard token.expiresAt > .now else {
             return req.templates.renderHtml(OutcomeMessageTemplate(.init(
@@ -23,7 +23,7 @@ struct FrontendController {
         }
         
         token.user.isEmailVerified = true
-        try await req.users.update(token.user)
+        try await req.repositories.users.update(token.user)
 
         return req.templates.renderHtml(OutcomeMessageTemplate(.init(
             text: "Email successfully verified!",
@@ -34,7 +34,7 @@ struct FrontendController {
     func resetPassword(_ req: Request) async throws -> Response {
         let token = try req.query.get(String.self, at: "token")
         
-        guard let token = try await req.passwordTokens.find(token: token) else {
+        guard let token = try await req.repositories.passwordTokens.find(token: token) else {
             return req.templates.renderHtml(OutcomeMessageTemplate(.init(
                 text: "Token not found, please request password reset again.",
                 title: "Token not found"
@@ -55,7 +55,7 @@ struct FrontendController {
         let input = try req.content.decode(PasswordResetInput.self)
         let token = try req.query.get(String.self, at: "token")
         
-        guard let token = try await req.passwordTokens.find(token: token) else {
+        guard let token = try await req.repositories.passwordTokens.find(token: token) else {
             return req.templates.renderHtml(OutcomeMessageTemplate(.init(
                 text: "Token not found, please request password reset again.",
                 title: "Token not found"
@@ -70,10 +70,10 @@ struct FrontendController {
             return renderResetPasswordView(req, form)
         }
         
-        try await req.passwordTokens.delete(id: token.requireID())
+        try await req.repositories.passwordTokens.delete(id: token.requireID())
         let hash = try await req.password.async.hash(input.password)
         token.user.password = hash
-        try await req.users.update(token.user)
+        try await req.repositories.users.update(token.user)
 
         return req.templates.renderHtml(OutcomeMessageTemplate(.init(
             text: "Password successfully changed!",

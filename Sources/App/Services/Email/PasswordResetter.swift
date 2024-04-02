@@ -20,7 +20,7 @@ struct PasswordResetter {
                 email: "noreply@sender.com"
             ),
             to: [.init(
-                name: user.fullName,
+                name: "\(user.firstName ?? "") \(user.lastName ?? "")",
                 email: user.email
             )],
             subject: "Password reset request",
@@ -34,7 +34,7 @@ struct PasswordResetter {
 extension Request {
     var passwordResetter: PasswordResetter {
         .init(
-            repository: passwordTokens,
+            repository: repositories.passwordTokens,
             generator: application.random,
             application: application
         )

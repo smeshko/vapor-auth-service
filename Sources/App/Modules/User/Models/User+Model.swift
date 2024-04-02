@@ -7,7 +7,8 @@ extension User.Detail.Response: Content {
         self.init(
             id: try model.requireID(),
             email: model.email,
-            fullName: model.fullName,
+            firstName: model.firstName,
+            lastName: model.lastName,
             isAdmin: model.isAdmin,
             isEmailVerified: model.isEmailVerified
         )
@@ -18,7 +19,8 @@ extension User.List.Response: Content {
     init(from model: UserAccountModel) throws {
         self.init(
             id: try model.requireID(),
-            fullName: model.fullName,
+            firstName: model.firstName,
+            lastName: model.lastName,
             email: model.email
         )
     }
@@ -29,7 +31,8 @@ extension User.Update.Response: Content {
         try self.init(
             id: model.requireID(),
             email: model.email,
-            fullName: model.fullName,
+            firstName: model.firstName,
+            lastName: model.lastName,
             isAdmin: model.isAdmin,
             isEmailVerified: model.isEmailVerified
         )
