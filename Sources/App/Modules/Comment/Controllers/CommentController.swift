@@ -25,7 +25,7 @@ struct CommentController {
         let commentId = try req.parameters.require("commentID", as: UUID.self)
         
         guard let parentComment = try await req.repositories.comments.find(id: commentId) else {
-            throw Abort(.notFound)
+            throw ContentError.contentNotFound
         }
 
         let model = try CommentModel(

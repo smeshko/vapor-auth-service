@@ -21,8 +21,8 @@ extension Comment.Reply.Response {
     init(
         from model: CommentModel
     ) throws {
-        guard let parentId = try model.parentComment?.requireID() else {
-            throw Abort(.badRequest)
+        guard let parentId = model.$parentComment.id else {
+            throw ContentError.contentNotFound
         }
         try self.init(
             id: model.requireID(),

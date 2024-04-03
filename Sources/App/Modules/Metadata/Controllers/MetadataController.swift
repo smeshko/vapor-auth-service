@@ -12,7 +12,7 @@ struct MetadataController {
         
         guard let token = try await req.repositories.challengeTokens.find(value: request.attestation.challenge),
               let challengeData = Data(base64Encoded: token.value) else {
-            throw Abort(.badRequest)
+            throw ContentError.contentNotFound
         }
 
         try req.appAttest.verify(

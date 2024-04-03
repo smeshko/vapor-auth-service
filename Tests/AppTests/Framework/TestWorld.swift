@@ -14,6 +14,7 @@ class TestWorld {
     private let postRepository: TestPostRepository = .init()
     private let mediaRepository: TestMediaRepository = .init()
     private let commentRepository: TestCommentRepository = .init()
+    private let businessRepository: TestBusinessRepository = .init()
     
     init(app: Application) throws {
         self.app = app
@@ -27,6 +28,7 @@ class TestWorld {
         app.repositories.use { _ in self.postRepository }
         app.repositories.use { _ in self.mediaRepository }
         app.repositories.use { _ in self.commentRepository }
+        app.repositories.use { _ in self.businessRepository }
         
         app.email.use(.fake)
         app.fileStorage.use(.fake)

@@ -4,8 +4,8 @@ import Fluent
 import Vapor
 
 protocol UserRepository: Repository {
-    func find(email: String) async throws -> UserAccountModel?
     func find(id: UUID) async throws -> UserAccountModel?
+    func find(email: String) async throws -> UserAccountModel?
     func find(appleUserIdentifier: String) async throws -> UserAccountModel?
     func create(_ model: UserAccountModel) async throws
     func all() async throws -> [UserAccountModel]
@@ -33,16 +33,16 @@ struct DatabaseUserRepository: UserRepository, DatabaseRepository {
             .first()
     }
     
-    func all() async throws -> [UserAccountModel] {
-        try await UserAccountModel.query(on: database).all()
-    }
-    
     func find(id: UUID) async throws -> UserAccountModel? {
         try await UserAccountModel.query(on: database)
             .filter(\.$id == id)
             .with(\.$posts)
             .with(\.$comments)
             .first()
+    }
+    
+    func all() async throws -> [UserAccountModel] {
+        try await UserAccountModel.query(on: database).all()
     }
     
     func create(_ model: UserAccountModel) async throws {

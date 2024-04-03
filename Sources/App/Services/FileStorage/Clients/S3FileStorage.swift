@@ -1,4 +1,5 @@
 import Vapor
+import Entities
 import SotoS3
 
 struct S3FileStorage: FileStorageProvider {
@@ -48,7 +49,7 @@ struct S3FileStorage: FileStorageProvider {
         let getResponse = try await s3.getObject(getRequest)
         
         guard let data = getResponse.body?.asData(), !data.isEmpty else {
-            throw Abort(.badRequest)
+            throw ContentError.contentNotFound
         }
         
         return data

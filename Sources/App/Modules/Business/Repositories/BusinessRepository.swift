@@ -88,4 +88,3 @@ extension Application.Repositories {
         storage.makeBusinessRepository = make
     }
 }
-

@@ -37,7 +37,7 @@ final class BusinessAccountModel: DatabaseModelInterface {
     var description: String 
     
     @Field(key: FieldKeys.v1.photoIds)
-    var photoIds: [String]
+    var photoIds: [UUID]
     
     @Field(key: FieldKeys.v1.isVerified)
     var isVerified: Bool
@@ -50,20 +50,18 @@ final class BusinessAccountModel: DatabaseModelInterface {
     init(
         id: UUID? = nil,
         user: UserAccountModel,
-        openingHours: [OpeningHoursModel],
         name: String,
         industry: String,
         website: String? = nil,
         contactPhone: String,
         contactEmail: String,
         description: String,
-        photoIds: [String],
+        photoIds: [UUID],
         isVerified: Bool,
         avatarId: UUID
-    ) {
+    ) throws {
         self.id = id
-        self.user = user
-        self.openingHours = openingHours
+        self.$user.id = try user.requireID()
         self.name = name
         self.industry = industry
         self.website = website

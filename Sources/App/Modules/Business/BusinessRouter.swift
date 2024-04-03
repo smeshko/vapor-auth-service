@@ -8,8 +8,6 @@ struct BusinessRouter: RouteCollection {
             .grouped("api")
             .grouped("business")
             
-        
-        
-        
+        api.post("sign-up", use: controller.create)
     }
 }
