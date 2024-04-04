@@ -56,17 +56,30 @@ extension Application {
     }
     
     func setupDB() throws {
-        if environment == .testing {
+        var tlsConnectionConfiguration: PostgresConnection.Configuration.TLS = .disable
+        
+        switch environment {
+        case .testing:
             databases.use(.sqlite(.memory), as: .sqlite)
             return
+        case .staging, .production:
+            var tlsConfig: TLSConfiguration = .makeClientConfiguration()
+            tlsConfig.certificateVerification = .none
+            let nioSSLContext = try NIOSSLContext(configuration: tlsConfig)
+            tlsConnectionConfiguration = .require(nioSSLContext)
+        case .development:
+            break
+        default:
+            break
         }
+        
         let postgresConfig = SQLPostgresConfiguration(
             hostname: Environment.databaseHost,
             port: Environment.databasePort,
             username: Environment.databaseUser,
             password: Environment.databasePassword,
             database: Environment.databaseName,
-            tls: .disable
+            tls: tlsConnectionConfiguration
         )
         databases.use(.postgres(configuration: postgresConfig), as: .psql)
     }
