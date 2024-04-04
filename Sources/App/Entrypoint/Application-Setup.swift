@@ -61,8 +61,7 @@ extension Application {
             return
         }
         let postgresConfig = SQLPostgresConfiguration(
-//            hostname: Environment.databaseHost,
-            hostname: "localhost",
+            hostname: Environment.databaseHost,
             port: Environment.databasePort,
             username: Environment.databaseUser,
             password: Environment.databasePassword,
