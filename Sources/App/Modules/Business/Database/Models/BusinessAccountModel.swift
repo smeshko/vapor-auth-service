@@ -14,9 +14,6 @@ final class BusinessAccountModel: DatabaseModelInterface {
 
     @Children(for: \.$business)
     var openingHours: [OpeningHoursModel]
-    
-    @OptionalChild(for: \.$business)
-    var location: LocationModel?
 
     @Field(key: FieldKeys.v1.name)
     var name: String 

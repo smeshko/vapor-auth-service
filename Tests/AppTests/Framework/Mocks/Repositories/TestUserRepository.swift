@@ -53,4 +53,13 @@ class TestUserRepository: UserRepository, TestRepository {
         users.remove(at: index)
         users.insert(model, at: index)
     }
+    
+    func add(_ location: LocationModel, to user: UserAccountModel) async throws {
+        users.first(where: { $0.id == user.id })?.$location.value = location
+    }
+    
+    func update(_ model: LocationModel) async throws {
+        let user = users.first(where: { $0.id == model.user.id })!
+        user.location = model
+    }
 }

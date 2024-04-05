@@ -27,8 +27,8 @@ extension OpeningHoursModel {
 
 extension LocationModel {
     convenience init(
-        db: BusinessAccountModel,
-        request: Business.Location
+        db: UserAccountModel,
+        request: Location
     ) throws {
         self.init(
             address: request.address,
@@ -36,7 +36,7 @@ extension LocationModel {
             zipcode: request.zipcode,
             longitude: request.longitude,
             latitude: request.latitude,
-            businessId: try db.requireID()
+            userId: try db.requireID()
         )
     }
 }
@@ -44,8 +44,7 @@ extension LocationModel {
 extension Business.Create.Response: Content {
     init(
         user: UserAccountModel,
-        business: BusinessAccountModel,
-        location: LocationModel
+        business: BusinessAccountModel
     ) throws {
         self.init(
             userID: try user.requireID(),
@@ -54,7 +53,6 @@ extension Business.Create.Response: Content {
             isEmailVerified: user.isEmailVerified,
             name: business.name,
             openingTimes: try business.openingHours.map(Business.OpeningTime.init(from:)),
-            location: .init(from: location),
             industry: business.industry,
             website: business.website,
             phone: business.contactPhone,
@@ -81,14 +79,15 @@ extension Business.OpeningTime {
     }
 }
 
-extension Business.Location {
+extension Location {
     init(from model: LocationModel) {
         self.init(
             address: model.address,
             city: model.city,
             zipcode: model.zipcode,
             longitude: model.longitude,
-            latitude: model.latitude
+            latitude: model.latitude,
+            radius: model.radius
         )
     }
 }

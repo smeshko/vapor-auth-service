@@ -9,6 +9,10 @@ struct CommentController {
         let user = try req.auth.require(UserAccountModel.self)
         let postId = try req.parameters.require("postID", as: UUID.self)
         
+        guard let _ = try await req.repositories.posts.find(id: postId) else {
+            throw ContentError.contentNotFound
+        }
+        
         let model = try CommentModel(
             userId: user.requireID(),
             postId: postId,

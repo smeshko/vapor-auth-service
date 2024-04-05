@@ -28,7 +28,7 @@ enum BusinessMigrations {
         }
 
         func revert(on db: Database) async throws  {
-            try await db.schema(UserAccountModel.schema).delete()
+            try await db.schema(BusinessAccountModel.schema).delete()
         }
     }
 }

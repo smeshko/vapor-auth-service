@@ -10,6 +10,9 @@ protocol UserRepository: Repository {
     func create(_ model: UserAccountModel) async throws
     func all() async throws -> [UserAccountModel]
     func update(_ model: UserAccountModel) async throws
+    
+    func add(_ location: LocationModel, to user: UserAccountModel) async throws
+    func update(_ model: LocationModel) async throws
 }
 
 struct DatabaseUserRepository: UserRepository, DatabaseRepository {
@@ -22,6 +25,7 @@ struct DatabaseUserRepository: UserRepository, DatabaseRepository {
             .filter(\.$appleUserIdentifier == appleUserIdentifier)
             .with(\.$posts)
             .with(\.$comments)
+            .with(\.$location)
             .first()
     }
 
@@ -30,6 +34,7 @@ struct DatabaseUserRepository: UserRepository, DatabaseRepository {
             .filter(\.$email == email)
             .with(\.$posts)
             .with(\.$comments)
+            .with(\.$location)
             .first()
     }
     
@@ -38,6 +43,7 @@ struct DatabaseUserRepository: UserRepository, DatabaseRepository {
             .filter(\.$id == id)
             .with(\.$posts)
             .with(\.$comments)
+            .with(\.$location)
             .first()
     }
     
@@ -50,6 +56,17 @@ struct DatabaseUserRepository: UserRepository, DatabaseRepository {
     }
     
     func update(_ model: UserAccountModel) async throws {
+        try await model.update(on: database)
+    }
+}
+
+// MARK: - LocationModel
+extension DatabaseUserRepository {
+    func add(_ location: LocationModel, to user: UserAccountModel) async throws {
+        try await user.$location.create(location, on: database)
+    }
+    
+    func update(_ model: LocationModel) async throws {
         try await model.update(on: database)
     }
 }

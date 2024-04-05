@@ -1,4 +1,5 @@
 @testable import App
+import Entities
 import Vapor
 
 extension BusinessAccountModel {
@@ -36,7 +37,6 @@ extension Business.Create.Request {
         userID: UUID,
         name: String = "Business Name",
         openingTimes: [Business.OpeningTime] = .mock(),
-        location: Business.Location = .mock(),
         industry: String = "Industry",
         website: String? = "website.com",
         phone: String = "001234",
@@ -50,7 +50,6 @@ extension Business.Create.Request {
             userID: userID,
             name: name,
             openingTimes: openingTimes,
-            location: location,
             industry: industry,
             website: website,
             phone: phone,
@@ -63,14 +62,15 @@ extension Business.Create.Request {
     }
 }
 
-extension Business.Location {
-    static func mock() -> Business.Location {
+extension Location {
+    static func mock() -> Location {
         self.init(
             address: "Business Road",
             city: "San Francisco",
             zipcode: "94016",
             longitude: 37.7749,
-            latitude: 122.4194
+            latitude: 122.4194,
+            radius: 500
         )
     }
 }

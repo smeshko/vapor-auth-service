@@ -33,7 +33,6 @@ final class CreateBusinessTests: XCTestCase {
                 XCTAssertEqual(response.userID, request.userID)
                 
                 let businessModel = try await app.repositories.businesses.find(id: response.id)
-                XCTAssertNotNil(businessModel!.location)
                 XCTAssertGreaterThan(businessModel!.openingHours.count, 0)
                 
                 let count = try await app.repositories.businesses.count()

@@ -3,7 +3,7 @@ import Fluent
 import Vapor
 
 final class LocationModel: DatabaseModelInterface {
-    typealias Module = BusinessModule
+    typealias Module = UserModule
     static let schema = "locations"
     
     @ID()
@@ -24,10 +24,13 @@ final class LocationModel: DatabaseModelInterface {
     @Field(key: FieldKeys.v1.latitude)
     var latitude: Double
     
-    @Parent(key: FieldKeys.v1.businessId)
-    var business: BusinessAccountModel
+    @OptionalField(key: FieldKeys.v1.radius)
+    var radius: Double?
     
-    init() { }
+    @Parent(key: FieldKeys.v1.userId)
+    var user: UserAccountModel
+    
+    init() {}
     
     init(
         id: UUID? = nil,
@@ -36,7 +39,8 @@ final class LocationModel: DatabaseModelInterface {
         zipcode: String,
         longitude: Double,
         latitude: Double,
-        businessId: UUID
+        radius: Double? = nil,
+        userId: UUID
     ) {
         self.id = id
         self.address = address
@@ -44,19 +48,21 @@ final class LocationModel: DatabaseModelInterface {
         self.zipcode = zipcode
         self.longitude = longitude
         self.latitude = latitude
-        self.$business.id = businessId
+        self.radius = radius
+        self.$user.id = userId
     }
 }
 
 extension LocationModel {
     struct FieldKeys {
         struct v1 {
-            static var businessId: FieldKey { "business_id" }
+            static var userId: FieldKey { "user_id" }
             static var address: FieldKey { "address" }
             static var city: FieldKey { "city" }
             static var zipcode: FieldKey { "zipcode" }
             static var longitude: FieldKey { "longitude" }
             static var latitude: FieldKey { "latitude" }
+            static var radius: FieldKey { "radius" }
         }
     }
 }

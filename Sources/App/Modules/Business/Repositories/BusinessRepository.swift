@@ -12,9 +12,6 @@ protocol BusinessRepository: Repository {
     func create(_ model: OpeningHoursModel) async throws
     func create(_ models: [OpeningHoursModel]) async throws
     func update(_ model: OpeningHoursModel) async throws
-    
-    func add(_ location: LocationModel, to business: BusinessAccountModel) async throws
-    func update(_ model: LocationModel) async throws
 }
 
 struct DatabaseBusinessRepository: BusinessRepository, DatabaseRepository {
@@ -30,7 +27,6 @@ extension DatabaseBusinessRepository {
             .filter(\.$id == id)
             .with(\.$user)
             .with(\.$openingHours)
-            .with(\.$location)
             .first()
     }
     
@@ -60,17 +56,6 @@ extension DatabaseBusinessRepository {
     }
 
     func update(_ model: OpeningHoursModel) async throws {
-        try await model.update(on: database)
-    }
-}
-
-// MARK: - LocationModel
-extension DatabaseBusinessRepository {
-    func add(_ location: LocationModel, to business: BusinessAccountModel) async throws {
-        try await business.$location.create(location, on: database)
-    }
-    
-    func update(_ model: LocationModel) async throws {
         try await model.update(on: database)
     }
 }

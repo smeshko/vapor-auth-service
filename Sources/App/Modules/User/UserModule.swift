@@ -7,6 +7,8 @@ struct UserModule: ModuleInterface {
 
     func boot(_ app: Application) throws {
         app.migrations.add(UserMigrations.v1())
+        app.migrations.add(LocationMigrations.v1())
+
         if app.environment == .development {
             app.migrations.add(UserMigrations.seed())
         }

@@ -12,10 +12,11 @@ enum LocationMigrations {
                 .field(LocationModel.FieldKeys.v1.zipcode, .string, .required)
                 .field(LocationModel.FieldKeys.v1.longitude, .double, .required)
                 .field(LocationModel.FieldKeys.v1.latitude, .double, .required)
-                .field(LocationModel.FieldKeys.v1.businessId, .uuid, .required)
+                .field(LocationModel.FieldKeys.v1.radius, .double)
+                .field(LocationModel.FieldKeys.v1.userId, .uuid, .required)
                 .foreignKey(
-                    LocationModel.FieldKeys.v1.businessId,
-                    references: BusinessAccountModel.schema, .id
+                    LocationModel.FieldKeys.v1.userId,
+                    references: UserAccountModel.schema, .id
                 )
                 .create()
         }

@@ -17,6 +17,9 @@ final class UserAccountModel: DatabaseModelInterface, Authenticatable {
     @Field(key: FieldKeys.v1.isAdmin)
     var isAdmin: Bool
     
+    @OptionalChild(for: \.$user)
+    var location: LocationModel?
+
     @OptionalField(key: FieldKeys.v1.firstName)
     var firstName: String?
 

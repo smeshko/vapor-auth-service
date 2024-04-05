@@ -4,15 +4,15 @@ import Entities
 import Fluent
 import XCTVapor
 
-extension Comment.Create.Request: Content {}
+extension Comment.Reply.Request: Content {}
 
-final class PostCommentTests: XCTestCase {
+final class PostReplyTests: XCTestCase {
     var app: Application!
     var user: UserAccountModel!
-    var post: PostModel!
+    var parent: CommentModel!
     var testWorld: TestWorld!
-    let path = "api/comments/post"
-    var request: Comment.Create.Request!
+    let path = "api/comments/reply"
+    var request: Comment.Reply.Request!
     let uuid = UUIDGenerator.incrementing
     
     override func setUpWithError() throws {
@@ -28,28 +28,29 @@ final class PostCommentTests: XCTestCase {
     func testHappyPath() async throws {
         try await createPost()
         
-        try await app.test(.POST, "\(path)/\(post.id!)", user: user, content: request) { response in
-            try await XCTAssertContentAsync(Comment.Create.Response.self, response) { response in
+        try await app.test(.POST, "\(path)/\(parent.id!)", user: user, content: request) { response in
+            try await XCTAssertContentAsync(Comment.Reply.Response.self, response) { response in
                 XCTAssertEqual(response.text, request.text)
-                XCTAssertEqual(response.postID, post.id)
+                XCTAssertEqual(response.postID, parent.$post.id)
+                XCTAssertEqual(response.parentId, parent.id)
                 XCTAssertEqual(response.userID, user.id)
                 let count = try await app.repositories.comments.count()
-                XCTAssertEqual(count, 1)
+                XCTAssertEqual(count, 2)
             }
         }
     }
     
-    func testCommentNotLoggedIn() async throws {
+    func testReplyNotLoggedIn() async throws {
         try await createPost()
-        
-        try await app.test(.POST, "\(path)/\(post.id!)", content: request) { response in
+
+        try await app.test(.POST, "\(path)/\(parent.id!)", content: request) { response in
             XCTAssertEqual(response.status, .unauthorized)
         }
     }
-    
-    func testCommentNonExistingPost() async throws {
+
+    func testCommentNonExistingParent() async throws {
         try await createPost()
-        
+
         try await app.test(.POST, "\(path)/\(uuid())", user: user, content: request) { response in
             XCTAssertResponseError(response, ContentError.contentNotFound)
         }
@@ -58,8 +59,19 @@ final class PostCommentTests: XCTestCase {
     private func createPost() async throws {
         try await app.repositories.users.create(user)
 
-        post = try .mock(user: user)
+        let post = try PostModel.mock(
+            id: uuid(),
+            user: user
+        )
         
         try await app.repositories.posts.create(post)
+        
+        parent = .mock(
+            id: uuid(),
+            userId: user.id!,
+            postId: post.id!
+        )
+        
+        try await app.repositories.comments.create(parent)
     }
 }

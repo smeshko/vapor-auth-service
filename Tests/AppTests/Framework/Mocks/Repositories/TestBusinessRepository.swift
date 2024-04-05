@@ -44,15 +44,6 @@ class TestBusinessRepository: BusinessRepository, TestRepository {
         let hoursIndex = business.openingHours.firstIndex(where: { $0.id == model.id })!
         business.openingHours.insert(model, at: hoursIndex)
     }
-    
-    func add(_ location: LocationModel, to business: BusinessAccountModel) async throws {
-        models.first(where: { $0.id == business.id })?.$location.value = location
-    }
-    
-    func update(_ model: LocationModel) async throws {
-        let business = models.first(where: { $0.id == model.business.id })!
-        business.location = model
-    }
 
     func delete(id: UUID) async throws {
         models.removeAll(where: { $0.id == id })

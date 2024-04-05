@@ -27,6 +27,7 @@ final class RegisterTests: XCTestCase {
         let data = Auth.SignUp.Request(
             email: "test@test.com",
             password: "password123",
+            location: .mock(),
             firstName: "Test",
             lastName: "User"
         )
@@ -60,7 +61,8 @@ final class RegisterTests: XCTestCase {
 
         let registerRequest = Auth.SignUp.Request(
             email: "test@test.com",
-            password: "password123"
+            password: "password123",
+            location: .mock()
         )
         
         try await app.test(.POST, registerPath, beforeRequest: { req in

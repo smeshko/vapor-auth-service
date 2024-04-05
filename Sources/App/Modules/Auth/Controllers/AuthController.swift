@@ -43,8 +43,8 @@ struct AuthController {
             let user = UserAccountModel(
                 email: email,
                 password: nil,
-                firstName: request.firstName,
-                lastName: request.lastName,
+                firstName: request.firstName.nilOrNonEmptyValue,
+                lastName: request.lastName.nilOrNonEmptyValue,
                 isEmailVerified: true
             )
             
@@ -88,8 +88,8 @@ struct AuthController {
         let user = UserAccountModel(
             email: registerRequest.email.lowercased(),
             password: hash,
-            firstName: registerRequest.firstName,
-            lastName: registerRequest.lastName
+            firstName: registerRequest.firstName.nilOrNonEmptyValue,
+            lastName: registerRequest.lastName.nilOrNonEmptyValue
         )
         
         do {
@@ -98,6 +98,12 @@ struct AuthController {
             throw AuthenticationError.emailAlreadyExists
         }
         
+        let locationModel = try LocationModel(
+            db: user,
+            request: registerRequest.location
+        )
+        try await req.repositories.users.add(locationModel, to: user)
+
         let token = req.random.generate(bits: 256)
         let refreshToken = RefreshTokenModel(value: SHA256.hash(token), userID: try user.requireID())
         
@@ -157,5 +163,12 @@ struct AuthController {
         
         try await req.passwordResetter.reset(for: user)
         return .ok
+    }
+}
+
+private extension Optional where Wrapped == String {
+    var nilOrNonEmptyValue: String? {
+        guard let self else { return nil }
+        return self.isEmpty ? nil : self
     }
 }
