@@ -69,6 +69,14 @@ extension Environment {
             fatalError("JWT_KEY is empty")
         }
     }
+    
+    static var placesKey: String {
+        if let key = Environment.get("PLACES_API_KEY") {
+            return key
+        } else {
+            fatalError("PLACES_API_KEY is empty")
+        }
+    }
 }
 
 // MARK: - AWS

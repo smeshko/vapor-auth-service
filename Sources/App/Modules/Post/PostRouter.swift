@@ -1,3 +1,4 @@
+import Entities
 import Vapor
 
 struct PostRouter: RouteCollection {
@@ -13,7 +14,7 @@ struct PostRouter: RouteCollection {
             .get("all", ":userID", use: controller.userPosts)
 
         let protectedPostsAPI = postsAPI
-            .grouped(UserAccountModel.guardMiddleware())
+            .grouped(UserAccountModel.guardMiddleware(throwing: AuthenticationError.userNotFound))
 
         protectedPostsAPI.post("create", use: controller.create)
     }

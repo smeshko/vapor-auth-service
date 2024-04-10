@@ -1,3 +1,4 @@
+import Entities
 import Vapor
 
 struct MediaRouter: RouteCollection {
@@ -8,15 +9,15 @@ struct MediaRouter: RouteCollection {
             .grouped("api")
             .grouped("media")
         
+        mediaAPI.get("download", ":mediaID", use: controller.download)
+
         let protectedAPI = mediaAPI
-            .grouped(UserAccountModel.guardMiddleware())
-        
+            .grouped(UserAccountModel.guardMiddleware(throwing: AuthenticationError.userNotFound))
+
         protectedAPI.on(
             .POST, "upload",
             body: .collect(maxSize: 10_000_000),
             use: controller.upload
         )
-
-        mediaAPI.get("download", ":mediaID", use: controller.download)
     }
 }

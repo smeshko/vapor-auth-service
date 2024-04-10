@@ -32,16 +32,19 @@ final class RegisterTests: XCTestCase {
             lastName: "User"
         )
         
-        try app.test(.POST, registerPath, beforeRequest: { req in
+        try await app.test(.POST, registerPath, beforeRequest: { req in
             try req.content.encode(data)
         }, afterResponse: { res in
             XCTAssertEqual(res.status, .ok)
-            XCTAssertContent(Auth.SignUp.Response.self, res) { signup in
+            try await XCTAssertContentAsync(Auth.SignUp.Response.self, res) { signup in
                 XCTAssertEqual(signup.user.email, "test@test.com")
                 XCTAssertEqual(signup.user.firstName, "Test")
                 XCTAssertEqual(signup.user.lastName, "User")
                 XCTAssert(!signup.token.refreshToken.isEmpty)
                 XCTAssert(!signup.token.accessToken.isEmpty)
+                
+                let userModel = try await app.repositories.users.find(id: signup.user.id)
+                XCTAssertNotNil(userModel?.location)
             }
         })
     }

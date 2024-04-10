@@ -13,5 +13,10 @@ struct MetadataRouter: RouteCollection {
         
         apiRoute.post("", use: controller.metadata)
         apiRoute.get("challenge", use: controller.challenge)
+        
+        apiRoute.get(
+            "nearby-locations",
+            use: controller.nearby
+        )
     }
 }
