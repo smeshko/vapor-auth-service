@@ -31,7 +31,7 @@ struct GooglePlacesRequest: Content {
         maxResultCount: Int = 10,
         latitude: Double,
         longitude: Double,
-        radius: Double = 500.0
+        radius: Double = 1000.0
     ) {
         self.includedTypes = includedTypes
         self.maxResultCount = maxResultCount

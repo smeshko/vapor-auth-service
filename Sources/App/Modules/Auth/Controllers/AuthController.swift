@@ -45,6 +45,7 @@ struct AuthController {
                 password: nil,
                 firstName: request.firstName.nilOrNonEmptyValue,
                 lastName: request.lastName.nilOrNonEmptyValue,
+                appleUserIdentifier: appleIdentityToken.subject.value,
                 isEmailVerified: true
             )
             

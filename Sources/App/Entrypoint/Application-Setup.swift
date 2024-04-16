@@ -95,5 +95,6 @@ extension Application {
         repositories.use(.database)
         email.use(.brevo)
         fileStorage.use(.s3)
+        appAttests.use(.appAttest)
     }
 }
