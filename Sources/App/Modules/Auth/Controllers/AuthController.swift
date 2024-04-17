@@ -99,11 +99,13 @@ struct AuthController {
             throw AuthenticationError.emailAlreadyExists
         }
         
-        let locationModel = try LocationModel(
-            db: user,
-            request: registerRequest.location
-        )
-        try await req.repositories.users.add(locationModel, to: user)
+        if let location = registerRequest.location {
+            let locationModel = try LocationModel(
+                db: user,
+                request: location
+            )
+            try await req.repositories.users.add(locationModel, to: user)
+        }
 
         let token = req.random.generate(bits: 256)
         let refreshToken = RefreshTokenModel(value: SHA256.hash(token), userID: try user.requireID())

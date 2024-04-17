@@ -16,11 +16,7 @@ struct BrevoClient: EmailProvider {
             content: email
         )
         
-        if ![HTTPStatus.ok, .created].contains(response.status)  {
-            throw AuthenticationError.emailVerificationFailed
-        }
-        
-        return .ok
+        return response.status
     }
     
     private var mailURI: URI {

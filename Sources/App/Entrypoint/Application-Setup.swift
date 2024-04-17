@@ -39,7 +39,8 @@ extension Application {
             FrontendModule(),
             PostModule(),
             MediaModule(),
-            CommentModule()
+            CommentModule(),
+            ExternalServicesModule()
         ]
         
         if environment != .testing {

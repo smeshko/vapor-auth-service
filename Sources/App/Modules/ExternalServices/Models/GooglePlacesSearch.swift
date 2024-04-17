@@ -3,10 +3,13 @@ import Entities
 
 extension Places.Search.Response: Content {}
 
-struct GooglePlacesRequest: Content {
-    enum IncludedType: String, Content {
-        case restaurant
-    }
+enum GooglePlacesIncludedType: String, Content {
+    case restaurant
+    case geocode
+    case address = "street_address"
+}
+
+struct GooglePlacesSearchRequest: Content {
     struct Restriction: Content {
         struct Circle: Content {
             struct Center: Content {
@@ -18,7 +21,7 @@ struct GooglePlacesRequest: Content {
         }
         let circle: Circle
     }
-    let includedTypes: [IncludedType]
+    let includedTypes: [GooglePlacesIncludedType]
     let maxResultCount: Int
     let locationRestriction: Restriction
     
@@ -27,7 +30,7 @@ struct GooglePlacesRequest: Content {
     }
     
     init(
-        includedTypes: [IncludedType] = [.restaurant],
+        includedTypes: [GooglePlacesIncludedType] = [.restaurant],
         maxResultCount: Int = 10,
         latitude: Double,
         longitude: Double,
@@ -47,7 +50,7 @@ struct GooglePlacesRequest: Content {
     }
 }
 
-struct GooglePlacesResponse: Content {
+struct GooglePlacesSearchResponse: Content {
     struct Place: Content {
         struct Location: Content {
             let latitude: Double
@@ -71,7 +74,7 @@ struct GooglePlacesResponse: Content {
 }
 
 extension Places.Search.Response {
-    init(remote: GooglePlacesResponse) {
+    init(remote: GooglePlacesSearchResponse) {
         self.init(
             places: remote.places.map(Places.Place.init(remote:))
         )
@@ -79,7 +82,7 @@ extension Places.Search.Response {
 }
 
 extension Places.Place {
-    init(remote: GooglePlacesResponse.Place) {
+    init(remote: GooglePlacesSearchResponse.Place) {
         self.init(
             name: remote.name,
             address: remote.formattedAddress,
