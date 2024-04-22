@@ -4,7 +4,7 @@ import Fluent
 import XCTVapor
 import Crypto
 
-final class LoginTests: XCTestCase {
+final class AuthSigninTests: XCTestCase {
     var app: Application!
     var testWorld: TestWorld!
     let loginPath = "api/auth/sign-in"
@@ -35,8 +35,8 @@ final class LoginTests: XCTestCase {
                 XCTAssertEqual(login.user.email, "test@test.com")
                 XCTAssertEqual(login.user.firstName, "John")
                 XCTAssertEqual(login.user.lastName, "Doe")
-                XCTAssert(!login.token.refreshToken.isEmpty)
-                XCTAssert(!login.token.accessToken.isEmpty)
+                XCTAssertFalse(login.token.refreshToken.isEmpty)
+                XCTAssertFalse(login.token.accessToken.isEmpty)
             }
         })
     }

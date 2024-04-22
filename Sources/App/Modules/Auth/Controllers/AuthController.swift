@@ -41,7 +41,7 @@ struct AuthController {
                 throw AuthenticationError.invalidEmailOrPassword
             }
             let user = UserAccountModel(
-                email: email,
+                email: email.lowercased(),
                 password: nil,
                 firstName: request.firstName.nilOrNonEmptyValue,
                 lastName: request.lastName.nilOrNonEmptyValue,
@@ -105,6 +105,7 @@ struct AuthController {
                 request: location
             )
             try await req.repositories.users.add(locationModel, to: user)
+            try await req.repositories.users.loadLocation(for: user)
         }
 
         let token = req.random.generate(bits: 256)

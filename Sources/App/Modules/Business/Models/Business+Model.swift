@@ -36,6 +36,7 @@ extension LocationModel {
             zipcode: request.zipcode,
             longitude: request.longitude,
             latitude: request.latitude,
+            radius: request.radius,
             userId: try db.requireID()
         )
     }

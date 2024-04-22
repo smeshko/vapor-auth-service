@@ -71,6 +71,10 @@ struct GooglePlacesSearchResponse: Content {
         }
     }
     let places: [Place]
+    
+    init(places: [Place]) {
+        self.places = places
+    }
 }
 
 extension Places.Search.Response {

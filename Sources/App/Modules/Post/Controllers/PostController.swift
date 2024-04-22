@@ -22,7 +22,9 @@ struct PostController {
     }
     
     func all(_ req: Request) async throws -> [Post.List.Response] {
-        try await req.repositories.posts.all().map(Post.List.Response.init(from:))
+        try await req.repositories.posts
+            .all()
+            .map(Post.List.Response.init(from:))
     }
     
     func userPosts(_ req: Request) async throws -> [Post.List.Response] {

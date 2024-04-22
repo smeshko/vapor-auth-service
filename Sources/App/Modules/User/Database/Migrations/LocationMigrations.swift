@@ -16,7 +16,8 @@ enum LocationMigrations {
                 .field(LocationModel.FieldKeys.v1.userId, .uuid, .required)
                 .foreignKey(
                     LocationModel.FieldKeys.v1.userId,
-                    references: UserAccountModel.schema, .id
+                    references: UserAccountModel.schema, .id,
+                    onDelete: .cascade
                 )
                 .create()
         }

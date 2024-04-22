@@ -12,7 +12,7 @@ struct MediaRouter: RouteCollection {
         mediaAPI.get("download", ":mediaID", use: controller.download)
 
         let protectedAPI = mediaAPI
-            .grouped(UserAccountModel.guardMiddleware(throwing: AuthenticationError.userNotFound))
+            .grouped(UserAccountModel.guard())
 
         protectedAPI.on(
             .POST, "upload",

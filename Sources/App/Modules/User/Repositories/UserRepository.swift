@@ -13,6 +13,8 @@ protocol UserRepository: Repository {
     
     func add(_ location: LocationModel, to user: UserAccountModel) async throws
     func update(_ model: LocationModel) async throws
+    func getLocation(for user: UserAccountModel) async throws -> LocationModel?
+    func loadLocation(for user: UserAccountModel) async throws
 }
 
 struct DatabaseUserRepository: UserRepository, DatabaseRepository {
@@ -68,6 +70,14 @@ extension DatabaseUserRepository {
     
     func update(_ model: LocationModel) async throws {
         try await model.update(on: database)
+    }
+    
+    func getLocation(for user: UserAccountModel) async throws -> LocationModel? {
+        try await user.$location.get(on: database)
+    }
+    
+    func loadLocation(for user: UserAccountModel) async throws {
+        try await user.$location.load(on: database)
     }
 }
 

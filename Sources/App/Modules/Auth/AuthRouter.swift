@@ -20,7 +20,7 @@ struct AuthRouter: RouteCollection {
         api.post("reset-password", use: controller.resetPassword)
         
         api
-            .grouped(UserAccountModel.guardMiddleware(throwing: AuthenticationError.userNotFound))
+            .grouped(UserAccountModel.guard())
             .post("logout", use: controller.logout)
     }
 }

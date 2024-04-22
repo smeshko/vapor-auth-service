@@ -7,7 +7,8 @@ struct BusinessRouter: RouteCollection {
         let api = routes
             .grouped("api")
             .grouped("business")
-            
+            .grouped(UserAccountModel.guard())
+
         api.post("sign-up", use: controller.create)
     }
 }

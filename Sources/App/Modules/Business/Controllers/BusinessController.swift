@@ -4,12 +4,9 @@ import Vapor
 struct BusinessController {
     
     func create(_ req: Request) async throws -> Business.Create.Response {
+        let user = try req.auth.require(UserAccountModel.self)
         let request = try req.content.decode(Business.Create.Request.self)
-        
-        guard let user = try await req.repositories.users.find(id: request.userID) else {
-            throw AuthenticationError.userNotFound
-        }
-        
+                
         let model = try BusinessAccountModel(
             user: user,
             name: request.name,

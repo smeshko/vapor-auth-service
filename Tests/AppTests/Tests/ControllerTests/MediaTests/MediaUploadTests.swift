@@ -6,7 +6,7 @@ import XCTVapor
 
 extension Media.Upload.Request: Content {}
 
-final class UploadMediaTests: XCTestCase {
+final class MediaUploadTests: XCTestCase {
     var app: Application!
     var user: UserAccountModel!
     var testWorld: TestWorld!

@@ -7,7 +7,7 @@ import Entities
 extension Auth.PasswordReset.Request: Content {}
 extension PasswordResetInput: Content {}
 
-final class ResetPasswordTests: XCTestCase {
+final class AuthResetPasswordTests: XCTestCase {
     var app: Application!
     var testWorld: TestWorld!
     let path = "api/auth/reset-password"

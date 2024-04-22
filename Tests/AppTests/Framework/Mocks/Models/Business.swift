@@ -62,15 +62,20 @@ extension Business.Create.Request {
     }
 }
 
-extension Location {
-    static func mock() -> Location {
+extension OpeningHoursModel {
+    static func mock(
+        id: UUID = .init(),
+        business: BusinessAccountModel,
+        day: String = "Monday",
+        openingTime: String = "8:00",
+        closingTime: String = "20:00"
+    ) -> OpeningHoursModel {
         self.init(
-            address: "Business Road",
-            city: "San Francisco",
-            zipcode: "94016",
-            longitude: 37.7749,
-            latitude: 122.4194,
-            radius: 500
+            id: id,
+            day: day,
+            openingTime: openingTime,
+            closingTime: closingTime,
+            businessID: business.id!
         )
     }
 }

@@ -11,8 +11,8 @@ struct UserRouter: RouteCollection {
             .grouped("user")
         
         let protectedAPI = api
-            .grouped(UserAccountModel.guardMiddleware(throwing: AuthenticationError.userNotFound))
-        
+            .grouped(UserAccountModel.guard())
+
         protectedAPI.delete("delete", use: controller.delete)
         protectedAPI.get("me", use: controller.getCurrentUser)
         protectedAPI.patch("update", use: controller.patch)

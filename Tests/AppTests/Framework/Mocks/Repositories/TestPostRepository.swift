@@ -26,7 +26,7 @@ class TestPostRepository: PostRepository, TestRepository {
     }
     
     func all(forUserId id: UUID) async throws -> [PostModel] {
-        posts.filter { $0.user.id == id }
+        posts.filter { $0.$user.id == id }
     }
     
     func update(_ model: PostModel) async throws {

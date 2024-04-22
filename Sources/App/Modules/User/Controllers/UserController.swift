@@ -6,7 +6,10 @@ import Vapor
 
 struct UserController {
     func getCurrentUser(_ req: Request) async throws -> User.Detail.Response {
-        try .init(from: req.auth.require(UserAccountModel.self))
+        let user = try req.auth.require(UserAccountModel.self)
+        try await req.repositories.users.loadLocation(for: user)
+        
+        return try .init(from: user)
     }
     
     func delete(_ req: Request) async throws -> HTTPStatus {
@@ -35,6 +38,27 @@ struct UserController {
         
         if let lastName = request.lastName {
             user.lastName = lastName
+        }
+        
+        if let location = request.location {
+            if let locationModel = try await req.repositories.users.getLocation(for: user) {
+                locationModel.address = location.address
+                locationModel.city = location.city
+                locationModel.zipcode = location.zipcode
+                locationModel.longitude = location.longitude
+                locationModel.latitude = location.latitude
+                locationModel.radius = location.radius
+                
+                try await req.repositories.users.update(locationModel)
+            } else {
+                let locationModel = try LocationModel(
+                    db: user,
+                    request: location
+                )
+                
+                try await req.repositories.users.add(locationModel, to: user)
+                try await req.repositories.users.loadLocation(for: user)
+            }
         }
         
         try await req.repositories.users.update(user)

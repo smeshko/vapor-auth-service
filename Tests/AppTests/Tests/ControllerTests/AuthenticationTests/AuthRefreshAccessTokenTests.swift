@@ -6,7 +6,7 @@ import Crypto
 
 extension Auth.TokenRefresh.Request: Content {}
 
-final class TokenTests: XCTestCase {
+final class AuthRefreshAccessTokenTests: XCTestCase {
     var app: Application!
     var testWorld: TestWorld!
     let accessTokenPath = "api/auth/refresh"
@@ -39,7 +39,7 @@ final class TokenTests: XCTestCase {
         try await app.test(.POST, accessTokenPath, content: accessTokenRequest) { res in
             XCTAssertEqual(res.status, .ok)
             XCTAssertContent(Auth.TokenRefresh.Response.self, res) { response in
-                XCTAssert(!response.accessToken.isEmpty)
+                XCTAssertFalse(response.accessToken.isEmpty)
                 XCTAssertEqual(response.refreshToken, "secondrefreshtoken")
             }
             let deletedToken = try await app.repositories.refreshTokens.find(id: tokenID)
@@ -61,4 +61,16 @@ final class TokenTests: XCTestCase {
             XCTAssertResponseError(res, AuthenticationError.refreshTokenHasExpired)
         })
     }
+    
+    func testRefreshAccessTokenFailsWhenUserDoesntExist() async throws {
+        let token = RefreshTokenModel(value: SHA256.hash("123"), userID: UUID())
+        try await app.repositories.refreshTokens.create(token)
+        
+        let accessTokenRequest = Auth.TokenRefresh.Request(refreshToken: "123")
+
+        try await app.test(.POST, accessTokenPath, content: accessTokenRequest, afterResponse: { res in
+            XCTAssertResponseError(res, AuthenticationError.userNotFound)
+        })
+    }
+
 }

@@ -6,7 +6,7 @@ import XCTVapor
 
 extension Comment.Create.Request: Content {}
 
-final class PostCommentTests: XCTestCase {
+final class CommentPostTests: XCTestCase {
     var app: Application!
     var user: UserAccountModel!
     var post: PostModel!

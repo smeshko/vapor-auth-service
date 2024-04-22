@@ -6,7 +6,7 @@ import XCTVapor
 
 extension Comment.Reply.Request: Content {}
 
-final class PostReplyTests: XCTestCase {
+final class CommentReplyTests: XCTestCase {
     var app: Application!
     var user: UserAccountModel!
     var parent: CommentModel!

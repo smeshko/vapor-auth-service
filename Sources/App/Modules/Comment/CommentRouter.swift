@@ -8,7 +8,7 @@ struct CommentRouter: RouteCollection {
         let commentsAPI = routes
             .grouped("api")
             .grouped("comments")
-            .grouped(UserAccountModel.guardMiddleware(throwing: AuthenticationError.userNotFound))
+            .grouped(UserAccountModel.guard())
         
         commentsAPI
             .post("post", ":postID", use: controller.post)

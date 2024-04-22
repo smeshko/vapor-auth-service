@@ -5,9 +5,9 @@ import Vapor
 
 protocol PostRepository: Repository {
     func find(id: UUID?) async throws -> PostModel?
+    func all(forUserId id: UUID) async throws -> [PostModel]
     func create(_ model: PostModel) async throws
     func all() async throws -> [PostModel]
-    func all(forUserId id: UUID) async throws -> [PostModel]
     func update(_ model: PostModel) async throws
 }
 

@@ -14,7 +14,7 @@ struct PostRouter: RouteCollection {
             .get("all", ":userID", use: controller.userPosts)
 
         let protectedPostsAPI = postsAPI
-            .grouped(UserAccountModel.guardMiddleware(throwing: AuthenticationError.userNotFound))
+            .grouped(UserAccountModel.guard())
 
         protectedPostsAPI.post("create", use: controller.create)
     }

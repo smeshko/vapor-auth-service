@@ -6,7 +6,7 @@ import XCTVapor
 
 extension Post.Create.Request: Content {}
 
-final class CreatePostTests: XCTestCase {
+final class PostCreateTests: XCTestCase {
     var app: Application!
     var user: UserAccountModel!
     var post: Post.Create.Request!
@@ -66,6 +66,8 @@ final class CreatePostTests: XCTestCase {
                 XCTAssertEqual(postResponse.text, "This is a post")
                 XCTAssertEqual(postResponse.imageIDs.first!, id1)
                 XCTAssertEqual(postResponse.videoIDs.first!, id2)
+                XCTAssertEqual(postResponse.videoIDs.count, 1)
+                XCTAssertEqual(postResponse.imageIDs.count, 1)
                 let count = try await app.repositories.posts.count()
                 XCTAssertEqual(count, 1)
             }

@@ -3,7 +3,7 @@ import Entities
 import Fluent
 import XCTVapor
 
-final class ListUsersTests: XCTestCase {
+final class UserListTests: XCTestCase {
     var app: Application!
     var user: UserAccountModel!
     var testWorld: TestWorld!
@@ -14,12 +14,7 @@ final class ListUsersTests: XCTestCase {
         try configure(app)
         testWorld = try TestWorld(app: app)
         
-        user = try UserAccountModel(
-            email: "test@test.com",
-            password: app.password.hash("password"),
-            isAdmin: true,
-            isEmailVerified: true
-        )
+        user = try UserAccountModel.mock(app: app, isAdmin: true)
     }
     
     override func tearDown() {
@@ -36,12 +31,9 @@ final class ListUsersTests: XCTestCase {
     }
     
     func testListRequestedByNonAdminShouldFail() async throws {
-        let nonAdmin = try UserAccountModel(
-            email: "test@test.com",
-            password: app.password.hash("password"),
-            isEmailVerified: true
-        )
+        let nonAdmin = try UserAccountModel.mock(app: app)
         try await app.repositories.users.create(nonAdmin)
+        
         try await app.test(.GET, listPath, user: nonAdmin) { response in
             XCTAssertEqual(response.status, .unauthorized)
         }

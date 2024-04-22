@@ -1,4 +1,5 @@
 import Common
+import Entities
 import Fluent
 import Vapor
 
@@ -72,5 +73,11 @@ extension UserAccountModel {
             static var lastName: FieldKey { "last_name" }
             static var appleUserIdentifier: FieldKey { "apple_user_identifier" }
         }
+    }
+}
+
+extension UserAccountModel {
+    static func `guard`() -> Middleware {
+        UserAccountModel.guardMiddleware(throwing: AuthenticationError.userNotFound)
     }
 }

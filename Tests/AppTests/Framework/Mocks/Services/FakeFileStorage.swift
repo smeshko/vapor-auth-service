@@ -1,7 +1,7 @@
 import XCTVapor
 @testable import App
 
-struct FileStorageMock: FileStorageProvider {
+struct FakeFileStorage: FileStorageProvider {
     func fetch(_ fileKey: String) async throws -> Data {
         Data()
     }
@@ -9,7 +9,7 @@ struct FileStorageMock: FileStorageProvider {
     func save(_ file: ByteBuffer, key: String) async throws {}
 }
 
-struct FileStorageMockThrowing: FileStorageProvider {
+struct FakeThrowingFileStorage: FileStorageProvider {
     func fetch(_ fileKey: String) async throws -> Data {
         throw Abort(.badRequest)
     }
@@ -23,7 +23,7 @@ extension Application.FileStorage.Provider {
     static var fake: Self {
         .init {
             $0.fileStorage.use { _ in
-                FileStorageMock()
+                FakeFileStorage()
             }
         }
     }
@@ -31,7 +31,7 @@ extension Application.FileStorage.Provider {
     static var throwing: Self {
         .init {
             $0.fileStorage.use { _ in
-                FileStorageMockThrowing()
+                FakeThrowingFileStorage()
             }
         }
     }

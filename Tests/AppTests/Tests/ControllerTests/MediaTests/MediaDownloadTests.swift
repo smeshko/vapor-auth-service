@@ -6,7 +6,7 @@ import XCTVapor
 
 extension Media.Download.Request: Content {}
 
-final class DownloadMediaTests: XCTestCase {
+final class MediaDownloadTests: XCTestCase {
     var app: Application!
     var testWorld: TestWorld!
     var media: MediaModel!

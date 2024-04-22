@@ -3,7 +3,7 @@ import Entities
 import Fluent
 import XCTVapor
 
-final class DeleteUserTests: XCTestCase {
+final class UserDeleteTests: XCTestCase {
     var app: Application!
     var user: UserAccountModel!
     var testWorld: TestWorld!
@@ -14,12 +14,7 @@ final class DeleteUserTests: XCTestCase {
         try configure(app)
         testWorld = try TestWorld(app: app)
         
-        user = try UserAccountModel(
-            email: "test@test.com",
-            password: app.password.hash("password"),
-            isEmailVerified: true
-        )
-
+        user = try UserAccountModel.mock(app: app)
     }
     
     override func tearDown() {

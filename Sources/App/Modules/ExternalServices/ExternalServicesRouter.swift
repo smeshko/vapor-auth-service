@@ -13,5 +13,7 @@ struct ExternalServicesRouter: RouteCollection {
         let placesAPI = api.grouped("places")
         placesAPI.get("autocomplete", use: places.autocomplete)
         placesAPI.get("search", use: places.nearby)
+        placesAPI.get("geocode", use: places.geocode)
+        placesAPI.get("reverse-geocode", use: places.reverseGeocode)
     }
 }
