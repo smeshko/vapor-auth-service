@@ -18,12 +18,24 @@ final class PostModel: DatabaseModelInterface {
     @OptionalField(key: FieldKeys.v1.videoIDs)
     var videoIDs: [UUID]?
     
+    @Children(for: \.$post)
+    var comments: [CommentModel]
+    
     @Field(key: FieldKeys.v1.tags)
     var tags: [String]
     
     @Field(key: FieldKeys.v1.text)
     var text: String
     
+    @Timestamp(key: FieldKeys.v1.createdAt, on: .create)
+    var createdAt: Date?
+
+    @Timestamp(key: FieldKeys.v1.updatedAt, on: .update)
+    var updatedAt: Date?
+
+    @Timestamp(key: FieldKeys.v1.deletedAt, on: .delete)
+    var deletedAt: Date?
+
     init() {}
     
     init(
@@ -31,6 +43,7 @@ final class PostModel: DatabaseModelInterface {
         user: UserAccountModel,
         imageIDs: [UUID]? = nil,
         videoIDs: [UUID]? = nil,
+        createdAt: Date? = nil,
         text: String,
         tags: [String] = []
     ) throws {
@@ -38,6 +51,7 @@ final class PostModel: DatabaseModelInterface {
         self.$user.id = try user.requireID()
         self.imageIDs = imageIDs
         self.videoIDs = videoIDs
+        self.createdAt = createdAt
         self.text = text
         self.tags = tags
     }
@@ -51,6 +65,9 @@ extension PostModel {
             static var videoIDs: FieldKey { "video_ids" }
             static var text: FieldKey { "test" }
             static var tags: FieldKey { "tags" }
+            static var createdAt: FieldKey { "created_at" }
+            static var updatedAt: FieldKey { "updated_at" }
+            static var deletedAt: FieldKey { "deleted_at" }
         }
     }
 }

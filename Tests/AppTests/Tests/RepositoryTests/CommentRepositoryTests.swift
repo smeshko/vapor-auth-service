@@ -81,6 +81,23 @@ final class CommentRepositoryTests: XCTestCase {
         let count = try await repository.all(forUserId: user1.id!).count
         XCTAssertEqual(count, 1)
     }
+    
+    func testAllForPost() async throws {
+        let user1 = try UserAccountModel.mock(app: app, email: "test1@test.com")
+        try await user1.create(on: app.db)
+        
+        let post1 = try PostModel.mock(user: user1)
+        try await post1.create(on: app.db)
+        
+        let comment = CommentModel.mock(userId: user1.id!, postId: post1.id!)
+        try await repository.create(comment)
+        
+        let comment2 = CommentModel.mock(userId: user1.id!, postId: post1.id!)
+        try await repository.create(comment2)
+
+        let count = try await repository.all(forPostId: post1.id!).count
+        XCTAssertEqual(count, 2)
+    }
 }
 
 extension CommentRepositoryTests {

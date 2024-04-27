@@ -7,6 +7,7 @@ protocol CommentRepository: Repository {
     func find(id: UUID) async throws -> CommentModel?
     func create(_ model: CommentModel) async throws
     func all(forUserId id: UUID) async throws -> [CommentModel]
+    func all(forPostId id: UUID) async throws -> [CommentModel]
     func update(_ model: CommentModel) async throws
 }
 
@@ -30,6 +31,13 @@ struct DatabaseCommentRepository: CommentRepository, DatabaseRepository {
     func all(forUserId id: UUID) async throws -> [CommentModel] {
         try await CommentModel.query(on: database)
             .filter(\.$user.$id == id)
+            .all()
+    }
+    
+    func all(forPostId id: UUID) async throws -> [CommentModel] {
+        try await CommentModel.query(on: database)
+            .filter(\.$post.$id == id)
+            .with(\.$user)
             .all()
     }
     

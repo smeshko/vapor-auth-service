@@ -34,7 +34,6 @@ extension BusinessAccountModel {
 
 extension Business.Create.Request {
     static func mock(
-        userID: UUID,
         name: String = "Business Name",
         openingTimes: [Business.OpeningTime] = .mock(),
         industry: String = "Industry",
@@ -47,7 +46,6 @@ extension Business.Create.Request {
         isVerified: Bool = true
     ) -> Business.Create.Request {
         self.init(
-            userID: userID,
             name: name,
             openingTimes: openingTimes,
             industry: industry,

@@ -12,6 +12,9 @@ enum PostMigrations {
                 .field(PostModel.FieldKeys.v1.tags, .array(of: .string), .required)
                 .field(PostModel.FieldKeys.v1.text, .string, .required)
                 .field(PostModel.FieldKeys.v1.userId, .uuid, .required)
+                .field(PostModel.FieldKeys.v1.createdAt, .datetime)
+                .field(PostModel.FieldKeys.v1.updatedAt, .datetime)
+                .field(PostModel.FieldKeys.v1.deletedAt, .datetime)
                 .foreignKey(
                     PostModel.FieldKeys.v1.userId,
                     references: UserAccountModel.schema, .id

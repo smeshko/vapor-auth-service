@@ -4,9 +4,9 @@ import Fluent
 import Vapor
 
 protocol PostRepository: Repository {
-    func find(id: UUID?) async throws -> PostModel?
-    func all(forUserId id: UUID) async throws -> [PostModel]
+    func find(id: UUID) async throws -> PostModel?
     func create(_ model: PostModel) async throws
+    func all(forUserId id: UUID) async throws -> [PostModel]
     func all() async throws -> [PostModel]
     func update(_ model: PostModel) async throws
 }
@@ -15,9 +15,14 @@ struct DatabasePostRepository: PostRepository, DatabaseRepository {
     typealias Model = PostModel
     
     let database: Database
-    
-    func find(id: UUID?) async throws -> PostModel? {
-        try await PostModel.find(id, on: database)
+
+    func find(id: UUID) async throws -> PostModel? {
+        try await PostModel
+            .query(on: database)
+            .filter(\.$id == id)
+            .with(\.$user, { $0.with(\.$location) })
+            .with(\.$comments, { $0.with(\.$user) })
+            .first()
     }
     
     func create(_ model: PostModel) async throws {
@@ -25,12 +30,17 @@ struct DatabasePostRepository: PostRepository, DatabaseRepository {
     }
     
     func all() async throws -> [PostModel] {
-        try await PostModel.query(on: database).all()
+        try await PostModel.query(on: database)
+            .with(\.$user)
+            .with(\.$comments)
+            .all()
     }
     
     func all(forUserId id: UUID) async throws -> [PostModel] {
         try await PostModel.query(on: database)
             .filter(\.$user.$id == id)
+            .with(\.$user)
+            .with(\.$comments)
             .all()
     }
     

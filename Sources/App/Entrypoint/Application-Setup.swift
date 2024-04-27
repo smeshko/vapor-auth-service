@@ -94,8 +94,8 @@ extension Application {
     func setupServices() {
         randomGenerators.use(.random)
         repositories.use(.database)
-        email.use(.brevo)
-        fileStorage.use(.s3)
-        appAttests.use(.appAttest)
+        services.fileStorage.use(.s3)
+        services.email.use(.brevo)
+        services.appAttest.use(.live)
     }
 }

@@ -1,16 +1,20 @@
 import XCTVapor
 @testable import App
 
-struct FakeEmailProvider: EmailProvider {
+struct FakeEmailProvider: EmailService {
+    func `for`(_ request: Request) -> any EmailService {
+        Self.init()
+    }
+    
     func send(_ email: any Email) async throws -> HTTPStatus {
         .ok
     }
 }
 
-extension Application.Email.Provider {
+extension Application.Service.Provider where ServiceType == EmailService {
     static var fake: Self {
         .init {
-            $0.email.use { _ in
+            $0.services.email.use { _ in
                 FakeEmailProvider()
             }
         }

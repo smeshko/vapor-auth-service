@@ -30,7 +30,7 @@ class TestWorld {
         app.repositories.use { _ in self.commentRepository }
         app.repositories.use { _ in self.businessRepository }
         
-        app.email.use(.fake)
-        app.fileStorage.use(.fake)
+        app.services.email.use(.fake)
+        app.services.fileStorage.use(.fake)
     }
 }

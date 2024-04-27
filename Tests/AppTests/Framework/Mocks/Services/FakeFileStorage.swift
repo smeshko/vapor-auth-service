@@ -1,7 +1,11 @@
 import XCTVapor
 @testable import App
 
-struct FakeFileStorage: FileStorageProvider {
+struct FakeFileStorage: FileStorageService {
+    func `for`(_ request: Request) -> any FileStorageService {
+        Self.init()
+    }
+    
     func fetch(_ fileKey: String) async throws -> Data {
         Data()
     }
@@ -9,7 +13,12 @@ struct FakeFileStorage: FileStorageProvider {
     func save(_ file: ByteBuffer, key: String) async throws {}
 }
 
-struct FakeThrowingFileStorage: FileStorageProvider {
+struct FakeThrowingFileStorage: FileStorageService {
+    func `for`(_ request: Request) -> any FileStorageService {
+        Self.init()
+    }
+    
+
     func fetch(_ fileKey: String) async throws -> Data {
         throw Abort(.badRequest)
     }
@@ -19,10 +28,10 @@ struct FakeThrowingFileStorage: FileStorageProvider {
     }
 }
 
-extension Application.FileStorage.Provider {
+extension Application.Service.Provider where ServiceType == FileStorageService {
     static var fake: Self {
         .init {
-            $0.fileStorage.use { _ in
+            $0.services.fileStorage.use { _ in
                 FakeFileStorage()
             }
         }
@@ -30,7 +39,7 @@ extension Application.FileStorage.Provider {
     
     static var throwing: Self {
         .init {
-            $0.fileStorage.use { _ in
+            $0.services.fileStorage.use { _ in
                 FakeThrowingFileStorage()
             }
         }

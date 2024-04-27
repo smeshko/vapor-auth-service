@@ -27,7 +27,7 @@ struct PasswordResetter {
             htmlContent: Templates.passwordReset(token: resetPasswordToken.value)
         )
         
-        try await application.email.client().send(content)
+        try await application.services.email.service.send(content)
     }
 }
 

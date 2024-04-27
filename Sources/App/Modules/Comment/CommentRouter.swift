@@ -8,12 +8,17 @@ struct CommentRouter: RouteCollection {
         let commentsAPI = routes
             .grouped("api")
             .grouped("comments")
-            .grouped(UserAccountModel.guard())
         
         commentsAPI
+            .get("all", ":postID", use: controller.allForPost)
+
+        let guardedAPI = commentsAPI
+            .grouped(UserAccountModel.guard())
+
+        guardedAPI
             .post("post", ":postID", use: controller.post)
         
-        commentsAPI
+        guardedAPI
             .post("reply", ":commentID", use: controller.reply)
     }
 }

@@ -15,7 +15,7 @@ struct MetadataController {
             throw ContentError.contentNotFound
         }
         
-        try req.appAttest.verify(
+        try req.services.appAttest.verify(
             attestation: request.attestation.attestation,
             challenge: challengeData,
             keyID: request.attestation.keyID,

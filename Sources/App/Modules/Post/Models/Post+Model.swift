@@ -4,6 +4,7 @@ import Vapor
 
 extension Post.List.Response: Content {}
 extension Post.Create.Response: Content {}
+extension Post.Detail.Response: Content {}
 extension Media.Upload.Response: Content {}
 
 extension Post.Create.Response {
@@ -12,6 +13,7 @@ extension Post.Create.Response {
     ) throws {
         try self.init(
             id: model.requireID(),
+            createdAt: model.createdAt ?? .now,
             text: model.text,
             imageIDs: model.imageIDs ?? [],
             videoIDs: model.videoIDs ?? []
@@ -23,8 +25,30 @@ extension Post.List.Response {
     init(
         from model: PostModel
     ) throws {
+        guard let firstImage = model.imageIDs?.first else {
+            throw ContentError.contentNotFound
+        }
         try self.init(
             id: model.requireID(),
+            createdAt: model.createdAt ?? .now,
+            text: model.text,
+            thumbnail: firstImage,
+            user: .init(from: model.user),
+            commentCount: model.comments.count,
+            tags: model.tags
+        )
+    }
+}
+
+extension Post.Detail.Response {
+    init(
+        from model: PostModel
+    ) throws {
+        try self.init(
+            id: model.requireID(),
+            createdAt: model.createdAt ?? .now,
+            user: .init(from: model.user),
+            comments: model.comments.map(Comment.List.Response.init(from:)),
             text: model.text,
             imageIDs: model.imageIDs ?? [],
             videoIDs: model.videoIDs ?? [],

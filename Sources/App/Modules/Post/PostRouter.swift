@@ -9,7 +9,11 @@ struct PostRouter: RouteCollection {
             .grouped("api")
             .grouped("posts")
         
-        postsAPI.get("all", use: controller.all)
+        postsAPI
+            .get(":postID", use: controller.details)
+        
+        postsAPI
+            .get("all", use: controller.all)
         postsAPI
             .get("all", ":userID", use: controller.userPosts)
 

@@ -25,7 +25,7 @@ struct EmailVerifier {
             htmlContent: Templates.verifyEmail(token: emailToken.value)
         )
         
-        try await application.emailProvider().send(content)
+        try await application.services.email.service.send(content)
     }
 }
 

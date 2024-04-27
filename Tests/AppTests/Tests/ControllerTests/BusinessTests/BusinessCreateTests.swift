@@ -21,7 +21,7 @@ final class BusinessCreateTests: XCTestCase {
         
         let id = uuid()
         user = try UserAccountModel.mock(app: app, id: id)
-        request = .mock(userID: id)
+        request = .mock()
     }
     
     func testHappyPath() async throws {

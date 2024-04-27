@@ -29,10 +29,10 @@ final class CommentPostTests: XCTestCase {
         try await createPost()
         
         try await app.test(.POST, "\(path)/\(post.id!)", user: user, content: request) { response in
-            try await XCTAssertContentAsync(Comment.Create.Response.self, response) { response in
-                XCTAssertEqual(response.text, request.text)
-                XCTAssertEqual(response.postID, post.id)
-                XCTAssertEqual(response.userID, user.id)
+            try await XCTAssertContentAsync([Comment.List.Response].self, response) { response in
+                XCTAssertEqual(response.count, 1)
+                XCTAssertEqual(response.first!.text, request.text)
+                XCTAssertEqual(response.first!.postID, post.id)
                 let count = try await app.repositories.comments.count()
                 XCTAssertEqual(count, 1)
             }

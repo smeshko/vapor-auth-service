@@ -1,8 +1,20 @@
 import Vapor
 import Entities
 
-struct BrevoClient: EmailProvider {
+extension Application.Service.Provider where ServiceType == EmailService {
+    static var brevo: Self {
+        .init {
+            $0.services.email.use { BrevoClient(app: $0) }
+        }
+    }
+}
+
+struct BrevoClient: EmailService {
     let app: Application
+    
+    func `for`(_ request: Request) -> any EmailService {
+        Self.init(app: request.application)
+    }
     
     @discardableResult
     func send(_ email: any Email) async throws -> HTTPStatus {
@@ -21,13 +33,5 @@ struct BrevoClient: EmailProvider {
     
     private var mailURI: URI {
         URI(string: Environment.mailProviderUrl)
-    }
-}
-
-extension Application.Email.Provider {
-    public static var brevo: Self {
-        .init {
-            $0.email.use(BrevoClient.init(app:))
-        }
     }
 }

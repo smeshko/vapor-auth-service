@@ -7,6 +7,7 @@ extension PostModel {
         user: UserAccountModel,
         imageIDs: [UUID]? = nil,
         videoIDs: [UUID]? = nil,
+        createdAt: Date? = .now,
         text: String = "This is a post",
         tags: [String] = []
     ) throws -> PostModel {
@@ -15,6 +16,7 @@ extension PostModel {
             user: user,
             imageIDs: imageIDs,
             videoIDs: videoIDs,
+            createdAt: createdAt,
             text: text,
             tags: tags
         )

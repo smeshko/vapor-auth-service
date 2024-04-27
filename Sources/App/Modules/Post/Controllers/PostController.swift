@@ -21,6 +21,16 @@ struct PostController {
         return try Post.Create.Response(from: postModel)
     }
     
+    func details(_ req: Request) async throws -> Post.Detail.Response {
+        let postId = try req.parameters.require("postID", as: UUID.self)
+        
+        guard let post = try await req.repositories.posts.find(id: postId) else {
+            throw ContentError.contentNotFound
+        }
+        
+        return try .init(from: post)
+    }
+    
     func all(_ req: Request) async throws -> [Post.List.Response] {
         try await req.repositories.posts
             .all()

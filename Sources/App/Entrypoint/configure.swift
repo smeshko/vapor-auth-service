@@ -17,8 +17,8 @@ public func configure(_ app: Application) throws {
     
     app.logger.info("Environment: \(app.environment.name)")
     
-    if [Environment.development, .staging].contains(app.environment) {
-        try app.autoRevert().wait()
+//    if [Environment.development, .staging].contains(app.environment) {
+//        try app.autoRevert().wait()
         try app.autoMigrate().wait()
-    }
+//    }
 }

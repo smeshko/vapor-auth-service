@@ -12,8 +12,9 @@ class TestPostRepository: PostRepository, TestRepository {
     
     typealias Model = PostModel
     
-    func find(id: UUID?) async throws -> PostModel? {
-        posts.first(where: { $0.id == id })
+    func find(id: UUID) async throws -> PostModel? {
+        let post = posts.first(where: { $0.id == id })
+        return post
     }
     
     func create(_ model: PostModel) async throws {

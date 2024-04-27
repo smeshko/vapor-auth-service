@@ -16,11 +16,16 @@ class TestCommentRepository: CommentRepository, TestRepository {
     
     func create(_ model: CommentModel) async throws {
         model.id = model.id ?? UUID()
+        model.$user.value = try .mock(app: .init())
         models.append(model)
     }
     
     func all(forUserId id: UUID) async throws -> [CommentModel] {
         models.filter { $0.$user.id == id }
+    }
+    
+    func all(forPostId id: UUID) async throws -> [CommentModel] {
+        models.filter { $0.$post.id == id }
     }
     
     func update(_ model: CommentModel) async throws {

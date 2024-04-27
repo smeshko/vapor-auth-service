@@ -4,12 +4,12 @@ import Fluent
 import Vapor
 
 struct CommentController {
-    func post(_ req: Request) async throws -> Comment.Create.Response {
+    func post(_ req: Request) async throws -> [Comment.List.Response] {
         let input = try req.content.decode(Comment.Create.Request.self)
         let user = try req.auth.require(UserAccountModel.self)
         let postId = try req.parameters.require("postID", as: UUID.self)
         
-        guard let _ = try await req.repositories.posts.find(id: postId) else {
+        guard let post = try await req.repositories.posts.find(id: postId) else {
             throw ContentError.contentNotFound
         }
         
@@ -20,7 +20,20 @@ struct CommentController {
         )
         
         try await req.repositories.comments.create(model)
-        return try .init(from: model)
+        
+        return try await req.repositories.comments
+            .all(forPostId: post.requireID())
+            .map(Comment.List.Response.init(from:))
+    }
+    
+    func allForPost(_ req: Request) async throws -> [Comment.List.Response] {
+        let postId = try req.parameters.require("postID", as: UUID.self)
+
+        guard let post = try await req.repositories.posts.find(id: postId) else {
+            throw ContentError.contentNotFound
+        }
+
+        return try post.comments.map(Comment.List.Response.init(from:))
     }
     
     func reply(_ req: Request) async throws -> Comment.Reply.Response {

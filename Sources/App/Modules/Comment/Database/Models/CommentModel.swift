@@ -24,6 +24,15 @@ final class CommentModel: DatabaseModelInterface {
     @Field(key: FieldKeys.v1.text)
     var text: String
 
+    @Timestamp(key: FieldKeys.v1.createdAt, on: .create)
+    var createdAt: Date?
+
+    @Timestamp(key: FieldKeys.v1.updatedAt, on: .update)
+    var updatedAt: Date?
+
+    @Timestamp(key: FieldKeys.v1.deletedAt, on: .delete)
+    var deletedAt: Date?
+
     init() {}
     
     init(
@@ -48,6 +57,9 @@ extension CommentModel {
             static var userId: FieldKey { "user_id" }
             static var postId: FieldKey { "post_id" }
             static var text: FieldKey { "text" }
+            static var createdAt: FieldKey { "created_at" }
+            static var updatedAt: FieldKey { "updated_at" }
+            static var deletedAt: FieldKey { "deleted_at" }
         }
     }
 }

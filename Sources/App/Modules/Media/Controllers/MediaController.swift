@@ -18,7 +18,7 @@ struct MediaController {
         )
         
         try await req.repositories.media.create(model)
-        try await req.fileStorage.save(buffer, key: model.key)
+        try await req.services.fileStorage.save(buffer, key: model.key)
 
         return .init(id: id, type: input.type)
     }
@@ -31,7 +31,7 @@ struct MediaController {
         }
         
         let key = "\(try model.requireID()).\(model.ext)"
-        let data = try await req.fileStorage.fetch(key)
+        let data = try await req.services.fileStorage.fetch(key)
         
         return Media.Download.Response(data: data)
     }
