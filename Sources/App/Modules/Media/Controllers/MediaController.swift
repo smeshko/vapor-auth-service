@@ -27,7 +27,7 @@ struct MediaController {
         let mediaId = try req.parameters.require("mediaID", as: UUID.self)
 
         guard let model = try await req.repositories.media.find(id: mediaId) else {
-            throw ContentError.contentNotFound
+            throw ContentError.mediaToDownloadNotFound
         }
         
         let key = "\(try model.requireID()).\(model.ext)"

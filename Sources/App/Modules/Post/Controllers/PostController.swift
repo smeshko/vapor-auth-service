@@ -25,7 +25,7 @@ struct PostController {
         let postId = try req.parameters.require("postID", as: UUID.self)
         
         guard let post = try await req.repositories.posts.find(id: postId) else {
-            throw ContentError.contentNotFound
+            throw ContentError.postNotFound
         }
         
         return try .init(from: post)

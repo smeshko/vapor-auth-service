@@ -26,7 +26,7 @@ extension Post.List.Response {
         from model: PostModel
     ) throws {
         guard let firstImage = model.imageIDs?.first else {
-            throw ContentError.contentNotFound
+            throw ContentError.postContainsNoImages
         }
         try self.init(
             id: model.requireID(),

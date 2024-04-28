@@ -57,7 +57,7 @@ class S3FileStorage: FileStorageService {
         let getResponse = try await s3.getObject(getRequest)
         
         guard let data = getResponse.body?.asData(), !data.isEmpty else {
-            throw ContentError.contentNotFound
+            throw ContentError.cannotFetchMedia
         }
         return data
     }

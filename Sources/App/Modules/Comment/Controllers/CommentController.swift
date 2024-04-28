@@ -10,7 +10,7 @@ struct CommentController {
         let postId = try req.parameters.require("postID", as: UUID.self)
         
         guard let post = try await req.repositories.posts.find(id: postId) else {
-            throw ContentError.contentNotFound
+            throw ContentError.postNotFound
         }
         
         let model = try CommentModel(
@@ -30,7 +30,7 @@ struct CommentController {
         let postId = try req.parameters.require("postID", as: UUID.self)
 
         guard let post = try await req.repositories.posts.find(id: postId) else {
-            throw ContentError.contentNotFound
+            throw ContentError.postNotFound
         }
 
         return try post.comments.map(Comment.List.Response.init(from:))
@@ -42,7 +42,7 @@ struct CommentController {
         let commentId = try req.parameters.require("commentID", as: UUID.self)
         
         guard let parentComment = try await req.repositories.comments.find(id: commentId) else {
-            throw ContentError.contentNotFound
+            throw ContentError.postNotFound
         }
 
         let model = try CommentModel(

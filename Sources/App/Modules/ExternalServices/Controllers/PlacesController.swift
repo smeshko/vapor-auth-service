@@ -74,7 +74,7 @@ struct PlacesController {
         )
         
         guard let first = geocodingResult.results.first else {
-            throw ContentError.contentNotFound
+            throw ContentError.geocodingReturnedNoResults
         }
         
         return .init(remote: first)
