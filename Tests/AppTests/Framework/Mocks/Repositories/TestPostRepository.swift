@@ -19,6 +19,7 @@ class TestPostRepository: PostRepository, TestRepository {
     
     func create(_ model: PostModel) async throws {
         model.id = model.id ?? UUID()
+        model.$likedBy.value = []
         posts.append(model)
     }
     
@@ -43,4 +44,14 @@ class TestPostRepository: PostRepository, TestRepository {
     func count() async throws -> Int {
         posts.count
     }
+    
+    func user(_ user: UserAccountModel, likes post: PostModel) async throws {
+        post.$likedBy.value?.append(user)
+    }
+    
+    func user(_ user: UserAccountModel, dislikes post: PostModel) async throws {
+        post.$likedBy.value?.removeAll(where: { $0.id == user.id})
+    }
+    
+    func loadLikes(for post: PostModel) async throws {}
 }

@@ -33,7 +33,8 @@ extension Post.List.Response {
             createdAt: model.createdAt ?? .now,
             text: model.text,
             thumbnail: firstImage,
-            user: .init(from: model.user),
+            user: .init(from: model.user), 
+            likes: model.likedBy.count,
             commentCount: model.comments.count,
             tags: model.tags
         )
@@ -50,6 +51,7 @@ extension Post.Detail.Response {
             user: .init(from: model.user),
             comments: model.comments.map(Comment.List.Response.init(from:)),
             text: model.text,
+            likes: model.likedBy.count,
             imageIDs: model.imageIDs ?? [],
             videoIDs: model.videoIDs ?? [],
             tags: model.tags

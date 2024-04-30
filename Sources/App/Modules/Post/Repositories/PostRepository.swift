@@ -9,6 +9,10 @@ protocol PostRepository: Repository {
     func all(forUserId id: UUID) async throws -> [PostModel]
     func all() async throws -> [PostModel]
     func update(_ model: PostModel) async throws
+    
+    func user(_ user: UserAccountModel, likes post: PostModel) async throws
+    func user(_ user: UserAccountModel, dislikes post: PostModel) async throws
+    func loadLikes(for post: PostModel) async throws
 }
 
 struct DatabasePostRepository: PostRepository, DatabaseRepository {
@@ -22,6 +26,7 @@ struct DatabasePostRepository: PostRepository, DatabaseRepository {
             .filter(\.$id == id)
             .with(\.$user, { $0.with(\.$location) })
             .with(\.$comments, { $0.with(\.$user) })
+            .with(\.$likedBy)
             .first()
     }
     
@@ -33,6 +38,7 @@ struct DatabasePostRepository: PostRepository, DatabaseRepository {
         try await PostModel.query(on: database)
             .with(\.$user)
             .with(\.$comments)
+            .with(\.$likedBy)
             .all()
     }
     
@@ -41,11 +47,28 @@ struct DatabasePostRepository: PostRepository, DatabaseRepository {
             .filter(\.$user.$id == id)
             .with(\.$user)
             .with(\.$comments)
+            .with(\.$likedBy)
             .all()
     }
     
     func update(_ model: PostModel) async throws {
         try await model.update(on: database)
+    }
+}
+
+// MARK: - LikeModel
+extension DatabasePostRepository {
+    func user(_ user: UserAccountModel, likes post: PostModel) async throws {
+        try await user.$likes.attach(post, method: .ifNotExists, on: database)
+        try await post.$likedBy.load(on: database)
+    }
+    
+    func user(_ user: UserAccountModel, dislikes post: PostModel) async throws {
+        try await user.$likes.detach(post, on: database)
+    }
+    
+    func loadLikes(for post: PostModel) async throws {
+        try await post.$likedBy.load(on: database)
     }
 }
 

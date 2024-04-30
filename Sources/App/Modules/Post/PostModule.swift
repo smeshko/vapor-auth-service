@@ -6,6 +6,7 @@ struct PostModule: ModuleInterface {
     
     func boot(_ app: Application) throws {
         app.migrations.add(PostMigrations.v1())
+        app.migrations.add(LikesMigrations.v1())
         
         try postRouter.boot(routes: app.routes)
     }

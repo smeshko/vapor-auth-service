@@ -4,12 +4,14 @@ import Entities
 import Fluent
 import XCTVapor
 
-final class PostUserPostsTests: XCTestCase {
+final class PostLikeTests: XCTestCase {
     var app: Application!
-    var post: PostModel!
     var user: UserAccountModel!
+    var post: PostModel!
     var testWorld: TestWorld!
-    let path = "api/posts/all"
+    var path: String {
+        "api/posts/like/\(post.id!)"
+    }
     let uuid = UUIDGenerator.incrementing
     
     override func setUpWithError() throws {
@@ -25,32 +27,29 @@ final class PostUserPostsTests: XCTestCase {
         app.shutdown()
     }
     
-    func testAllHappyPath() async throws {
+    func testHappyPath() async throws {
         try await createPost()
         
-        try app.test(.GET, "\(path)/\(user.id!)") { response in
-            XCTAssertContent([Post.List.Response].self, response) { postResponse in
-                XCTAssertEqual(postResponse.first!.text, post.text)
-                XCTAssertEqual(postResponse.count, 1)
+        try await app.test(.POST, path, user: user) { response in
+            XCTAssertContent(Post.Detail.Response.self, response) { postResponse in
+                XCTAssertEqual(postResponse.text, "This is a post")
+                XCTAssertEqual(postResponse.likes, 1)
             }
         }
     }
     
-    func testAllNonExistingUserId() async throws {
+    func testLikeNotLoggedIn() async throws {
         try await createPost()
-        
-        try app.test(.GET, "\(path)/\(uuid())") { response in
-            XCTAssertContent([Post.List.Response].self, response) { postResponse in
-                XCTAssertEqual(postResponse.count, 0)
-            }
+        try app.test(.POST, path) { response in
+            XCTAssertEqual(response.status, .unauthorized)
         }
     }
     
     private func createPost() async throws {
         try await app.repositories.users.create(user)
+        user.$location.value = .mock(userId: user.id!)
         post = try .mock(user: user)
         post.$user.value = user
-        post.imageIDs = [uuid()]
         post.$comments.value = []
         try await app.repositories.posts.create(post)
     }

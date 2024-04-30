@@ -27,6 +27,9 @@ final class PostModel: DatabaseModelInterface {
     @Field(key: FieldKeys.v1.text)
     var text: String
     
+    @Siblings(through: LikeModel.self, from: \.$post, to: \.$user)
+    var likedBy: [UserAccountModel]
+    
     @Timestamp(key: FieldKeys.v1.createdAt, on: .create)
     var createdAt: Date?
 

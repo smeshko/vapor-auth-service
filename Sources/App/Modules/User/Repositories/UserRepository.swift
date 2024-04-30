@@ -21,7 +21,7 @@ struct DatabaseUserRepository: UserRepository, DatabaseRepository {
     typealias Model = UserAccountModel
     
     let database: Database
-    
+
     func find(appleUserIdentifier: String) async throws -> UserAccountModel? {
         try await UserAccountModel.query(on: database)
             .filter(\.$appleUserIdentifier == appleUserIdentifier)

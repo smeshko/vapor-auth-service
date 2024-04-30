@@ -33,6 +33,12 @@ final class UserAccountModel: DatabaseModelInterface, Authenticatable {
     @Field(key: FieldKeys.v1.isEmailVerified)
     var isEmailVerified: Bool
     
+    @OptionalField(key: FieldKeys.v1.avatar)
+    var avatar: UUID?
+    
+    @Siblings(through: LikeModel.self, from: \.$user, to: \.$post)
+    var likes: [PostModel]
+    
     @Children(for: \.$user)
     var posts: [PostModel]
     
@@ -71,6 +77,7 @@ extension UserAccountModel {
             static var isEmailVerified: FieldKey { "is_email_verified" }
             static var firstName: FieldKey { "first_name" }
             static var lastName: FieldKey { "last_name" }
+            static var avatar: FieldKey { "avatar" }
             static var appleUserIdentifier: FieldKey { "apple_user_identifier" }
         }
     }

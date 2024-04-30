@@ -32,7 +32,7 @@ final class CommentAllForPostTests: XCTestCase {
     
     func testAllCommentsNonExistingPost() async throws {
         try app.test(.GET, "\(path)/\(uuid())") { response in
-            XCTAssertResponseError(response, ContentError.contentNotFound)
+            XCTAssertResponseError(response, ContentError.postNotFound)
         }
     }
 

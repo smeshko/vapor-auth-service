@@ -20,6 +20,10 @@ struct PostRouter: RouteCollection {
         let protectedPostsAPI = postsAPI
             .grouped(UserAccountModel.guard())
 
-        protectedPostsAPI.post("create", use: controller.create)
+        protectedPostsAPI
+            .post("create", use: controller.create)
+
+        protectedPostsAPI
+            .post("like", ":postID", use: controller.like)
     }
 }

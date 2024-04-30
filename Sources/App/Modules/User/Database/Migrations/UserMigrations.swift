@@ -16,6 +16,7 @@ enum UserMigrations {
                 .field(UserAccountModel.FieldKeys.v1.appleUserIdentifier, .string)
                 .field(UserAccountModel.FieldKeys.v1.isAdmin, .bool, .required)
                 .field(UserAccountModel.FieldKeys.v1.isEmailVerified, .bool, .required)
+                .field(UserAccountModel.FieldKeys.v1.avatar, .uuid)
                 .unique(on: UserAccountModel.FieldKeys.v1.email)
                 .create()
         }

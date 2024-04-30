@@ -52,7 +52,7 @@ final class CommentReplyTests: XCTestCase {
         try await createPost()
 
         try await app.test(.POST, "\(path)/\(uuid())", user: user, content: request) { response in
-            XCTAssertResponseError(response, ContentError.contentNotFound)
+            XCTAssertResponseError(response, ContentError.parentCommentNotFound)
         }
     }
 

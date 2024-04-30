@@ -4,6 +4,19 @@ import Fluent
 import Vapor
 
 struct PostController {
+    func like(_ req: Request) async throws -> Post.Detail.Response {
+        let user = try req.auth.require(UserAccountModel.self)
+        let postId = try req.parameters.require("postID", as: UUID.self)
+
+        guard let post = try await req.repositories.posts.find(id: postId) else {
+            throw ContentError.postNotFound
+        }
+
+        try await req.repositories.posts.user(user, likes: post)
+        
+        return try Post.Detail.Response(from: post)
+    }
+    
     func create(_ req: Request) async throws -> Post.Create.Response {
         let user = try req.auth.require(UserAccountModel.self)
         let request = try req.content.decode(Post.Create.Request.self)

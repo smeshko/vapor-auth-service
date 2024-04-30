@@ -37,7 +37,7 @@ final class PostDetailsTests: XCTestCase {
     
     func testDetailsPostNotFound() async throws {
         try app.test(.GET, "\(path)/\(uuid())") { response in
-            XCTAssertResponseError(response, ContentError.contentNotFound)
+            XCTAssertResponseError(response, ContentError.postNotFound)
         }
     }
     
@@ -46,6 +46,7 @@ final class PostDetailsTests: XCTestCase {
         user.$location.value = .mock(userId: user.id!)
         post = try .mock(user: user)
         post.$user.value = user
+        post.$comments.value = []
         try await app.repositories.posts.create(post)
     }
 }
