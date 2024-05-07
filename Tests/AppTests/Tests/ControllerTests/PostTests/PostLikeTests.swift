@@ -38,6 +38,13 @@ final class PostLikeTests: XCTestCase {
         }
     }
     
+    func testPostNotFound() async throws {
+        try await createPost()
+        try await app.test(.POST, "api/posts/like/\(uuid())", user: user) { response in
+            XCTAssertResponseError(response, ContentError.postNotFound)
+        }
+    }
+
     func testLikeNotLoggedIn() async throws {
         try await createPost()
         try app.test(.POST, path) { response in

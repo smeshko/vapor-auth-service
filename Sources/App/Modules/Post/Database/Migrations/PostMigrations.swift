@@ -11,6 +11,7 @@ enum PostMigrations {
                 .field(PostModel.FieldKeys.v1.videoIDs, .array(of: .string))
                 .field(PostModel.FieldKeys.v1.tags, .array(of: .string), .required)
                 .field(PostModel.FieldKeys.v1.text, .string, .required)
+                .field(PostModel.FieldKeys.v1.title, .string, .required)
                 .field(PostModel.FieldKeys.v1.userId, .uuid, .required)
                 .field(PostModel.FieldKeys.v1.createdAt, .datetime)
                 .field(PostModel.FieldKeys.v1.updatedAt, .datetime)

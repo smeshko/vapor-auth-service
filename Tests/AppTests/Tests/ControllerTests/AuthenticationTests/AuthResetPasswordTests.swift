@@ -43,7 +43,7 @@ final class AuthResetPasswordTests: XCTestCase {
         let resetPasswordRequest = Auth.PasswordReset.Request(email: "none@test.com")
         
         try await app.test(.POST, path, content: resetPasswordRequest, afterResponse: { res in
-            XCTAssertResponseError(res, AuthenticationError.userNotFound)
+            XCTAssertResponseError(res, UserError.userNotFound)
         })
     }
 

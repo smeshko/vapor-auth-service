@@ -26,6 +26,7 @@ struct PostController {
             imageIDs: request.imageIDs,
             videoIDs: request.videoIDs,
             text: request.text,
+            title: request.title,
             tags: []
         )
         

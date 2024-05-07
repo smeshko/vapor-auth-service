@@ -69,7 +69,7 @@ final class AuthRefreshAccessTokenTests: XCTestCase {
         let accessTokenRequest = Auth.TokenRefresh.Request(refreshToken: "123")
 
         try await app.test(.POST, accessTokenPath, content: accessTokenRequest, afterResponse: { res in
-            XCTAssertResponseError(res, AuthenticationError.userNotFound)
+            XCTAssertResponseError(res, UserError.userNotFound)
         })
     }
 

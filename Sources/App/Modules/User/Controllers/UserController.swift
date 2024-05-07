@@ -19,7 +19,7 @@ struct UserController {
     }
     
     func list(_ req: Request) async throws -> [User.List.Response] {
-        try await req.repositories.users.all().map { model in
+        try await req.repositories.users.all().asyncMap { model in
             try User.List.Response(from: model)
         }
     }
@@ -63,5 +63,43 @@ struct UserController {
         
         try await req.repositories.users.update(user)
         return try .init(from: user)
+    }
+    
+    func follow(_ req: Request) async throws -> HTTPResponseStatus {
+        let user = try req.auth.require(UserAccountModel.self)
+        let otherID = try req.parameters.require("userID", as: UUID.self)
+        
+        guard let other = try await req.repositories.users.find(id: otherID) else {
+            throw UserError.userNotFound
+        }
+        
+        let otherFollowers = try await req.repositories.users.followers(for: other)
+        
+        guard !otherFollowers.contains(where: { $0.id == user.id }) else {
+            throw UserError.userAlreadyFollowsUser
+        }
+        
+        try await req.repositories.users.user(user, startsFollowing: other)
+        
+        return .ok
+    }
+    
+    func unfollow(_ req: Request) async throws -> HTTPResponseStatus {
+        let user = try req.auth.require(UserAccountModel.self)
+        let otherID = try req.parameters.require("userID", as: UUID.self)
+        
+        guard let other = try await req.repositories.users.find(id: otherID) else {
+            throw UserError.userNotFound
+        }
+        
+        let otherFollowers = try await req.repositories.users.followers(for: other)
+        
+        guard otherFollowers.contains(where: { $0.id == user.id }) else {
+            throw UserError.userNotFollowingUser
+        }
+        
+        try await req.repositories.users.user(user, unfollows: other)
+        
+        return .ok
     }
 }

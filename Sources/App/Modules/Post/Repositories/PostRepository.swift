@@ -24,7 +24,11 @@ struct DatabasePostRepository: PostRepository, DatabaseRepository {
         try await PostModel
             .query(on: database)
             .filter(\.$id == id)
-            .with(\.$user, { $0.with(\.$location) })
+            .with(\.$user, {
+                $0.with(\.$location)
+                $0.with(\.$followers)
+                $0.with(\.$following)
+            })
             .with(\.$comments, { $0.with(\.$user) })
             .with(\.$likedBy)
             .first()

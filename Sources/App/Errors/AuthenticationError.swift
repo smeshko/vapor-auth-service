@@ -17,8 +17,6 @@ extension AuthenticationError: AbortError {
             return .unauthorized
         case .refreshTokenOrUserNotFound:
             return .notFound
-        case .userNotFound:
-            return .unauthorized
         case .userNotAuthorized:
             return .unauthorized
         case .emailTokenNotFound:

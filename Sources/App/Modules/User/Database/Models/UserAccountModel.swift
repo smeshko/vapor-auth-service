@@ -44,6 +44,12 @@ final class UserAccountModel: DatabaseModelInterface, Authenticatable {
     
     @Children(for: \.$user)
     var comments: [CommentModel]
+    
+    @Siblings(through: UserFollowerModel.self, from: \.$user, to: \.$follower)
+    var followers: [UserAccountModel]
+    
+    @Siblings(through: UserFollowerModel.self, from: \.$follower, to: \.$user)
+    var following: [UserAccountModel]
 
     init() { }
     
@@ -65,6 +71,8 @@ final class UserAccountModel: DatabaseModelInterface, Authenticatable {
         self.isAdmin = isAdmin
         self.isEmailVerified = isEmailVerified
         self.password = password
+        self.$followers.value = []
+        self.$following.value = []
     }
 }
 
@@ -85,6 +93,6 @@ extension UserAccountModel {
 
 extension UserAccountModel {
     static func `guard`() -> Middleware {
-        UserAccountModel.guardMiddleware(throwing: AuthenticationError.userNotFound)
+        UserAccountModel.guardMiddleware(throwing: UserError.userNotFound)
     }
 }

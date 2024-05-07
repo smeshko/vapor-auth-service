@@ -17,9 +17,9 @@ enum LikesMigrations {
                     LikeModel.FieldKeys.v1.postId,
                     references: PostModel.schema, .id
                 )
-                .field(PostModel.FieldKeys.v1.createdAt, .datetime)
-                .field(PostModel.FieldKeys.v1.updatedAt, .datetime)
-                .field(PostModel.FieldKeys.v1.deletedAt, .datetime)
+                .field(LikeModel.FieldKeys.v1.createdAt, .datetime)
+                .field(LikeModel.FieldKeys.v1.updatedAt, .datetime)
+                .field(LikeModel.FieldKeys.v1.deletedAt, .datetime)
                 .unique(on: LikeModel.FieldKeys.v1.postId, LikeModel.FieldKeys.v1.userId)
                 .create()
         }

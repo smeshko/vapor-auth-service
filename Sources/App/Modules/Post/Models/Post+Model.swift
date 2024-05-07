@@ -13,6 +13,7 @@ extension Post.Create.Response {
     ) throws {
         try self.init(
             id: model.requireID(),
+            title: model.title,
             createdAt: model.createdAt ?? .now,
             text: model.text,
             imageIDs: model.imageIDs ?? [],
@@ -30,6 +31,7 @@ extension Post.List.Response {
         }
         try self.init(
             id: model.requireID(),
+            title: model.title,
             createdAt: model.createdAt ?? .now,
             text: model.text,
             thumbnail: firstImage,
@@ -47,6 +49,7 @@ extension Post.Detail.Response {
     ) throws {
         try self.init(
             id: model.requireID(),
+            title: model.title,
             createdAt: model.createdAt ?? .now,
             user: .init(from: model.user),
             comments: model.comments.map(Comment.List.Response.init(from:)),

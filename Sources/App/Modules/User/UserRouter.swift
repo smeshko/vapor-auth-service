@@ -16,6 +16,9 @@ struct UserRouter: RouteCollection {
         protectedAPI.delete("delete", use: controller.delete)
         protectedAPI.get("me", use: controller.getCurrentUser)
         protectedAPI.patch("update", use: controller.patch)
+        
+        protectedAPI.post("follow", ":userID", use: controller.follow)
+        protectedAPI.post("unfollow", ":userID", use: controller.unfollow)
 
         protectedAPI
             .grouped(EnsureAdminUserMiddleware())

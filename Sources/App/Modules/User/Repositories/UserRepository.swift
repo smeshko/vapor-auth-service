@@ -15,6 +15,11 @@ protocol UserRepository: Repository {
     func update(_ model: LocationModel) async throws
     func getLocation(for user: UserAccountModel) async throws -> LocationModel?
     func loadLocation(for user: UserAccountModel) async throws
+    
+    func followers(for user: UserAccountModel) async throws -> [UserAccountModel]
+    func following(for user: UserAccountModel) async throws -> [UserAccountModel]
+    func user(_ user: UserAccountModel, startsFollowing other: UserAccountModel) async throws
+    func user(_ user: UserAccountModel, unfollows other: UserAccountModel) async throws
 }
 
 struct DatabaseUserRepository: UserRepository, DatabaseRepository {
@@ -28,6 +33,8 @@ struct DatabaseUserRepository: UserRepository, DatabaseRepository {
             .with(\.$posts)
             .with(\.$comments)
             .with(\.$location)
+            .with(\.$followers)
+            .with(\.$following)
             .first()
     }
 
@@ -37,6 +44,8 @@ struct DatabaseUserRepository: UserRepository, DatabaseRepository {
             .with(\.$posts)
             .with(\.$comments)
             .with(\.$location)
+            .with(\.$followers)
+            .with(\.$following)
             .first()
     }
     
@@ -46,11 +55,16 @@ struct DatabaseUserRepository: UserRepository, DatabaseRepository {
             .with(\.$posts)
             .with(\.$comments)
             .with(\.$location)
+            .with(\.$followers)
+            .with(\.$following)
             .first()
     }
     
     func all() async throws -> [UserAccountModel] {
-        try await UserAccountModel.query(on: database).all()
+        try await UserAccountModel.query(on: database)
+            .with(\.$followers)
+            .with(\.$following)
+            .all()
     }
     
     func create(_ model: UserAccountModel) async throws {
@@ -78,6 +92,26 @@ extension DatabaseUserRepository {
     
     func loadLocation(for user: UserAccountModel) async throws {
         try await user.$location.load(on: database)
+    }
+}
+
+// MARK: - Followers
+extension DatabaseUserRepository {
+    
+    func followers(for user: UserAccountModel) async throws -> [UserAccountModel] {
+        try await user.$followers.get(on: database)
+    }
+    
+    func following(for user: UserAccountModel) async throws -> [UserAccountModel] {
+        try await user.$following.get(on: database)
+    }
+    
+    func user(_ user: UserAccountModel, startsFollowing other: UserAccountModel) async throws {
+        try await user.$following.attach(other, on: database)
+    }
+    
+    func user(_ user: UserAccountModel, unfollows other: UserAccountModel) async throws {
+        try await user.$following.detach(other, on: database)
     }
 }
 

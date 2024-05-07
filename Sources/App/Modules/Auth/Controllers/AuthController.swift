@@ -133,7 +133,7 @@ struct AuthController {
         }
         
         guard let user = try await req.repositories.users.find(id: token.$user.id) else {
-            throw AuthenticationError.userNotFound
+            throw UserError.userNotFound
         }
         
         try await req.repositories.refreshTokens.delete(id: token.requireID())
@@ -162,7 +162,7 @@ struct AuthController {
         let resetPasswordRequest = try req.content.decode(Auth.PasswordReset.Request.self)
         
         guard let user = try await req.repositories.users.find(email: resetPasswordRequest.email) else {
-            throw AuthenticationError.userNotFound
+            throw UserError.userNotFound
         }
         
         try await req.passwordResetter.reset(for: user)
