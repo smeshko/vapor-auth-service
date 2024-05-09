@@ -10,12 +10,14 @@ enum LikesMigrations {
                 .field(LikeModel.FieldKeys.v1.userId, .uuid, .required)
                 .foreignKey(
                     LikeModel.FieldKeys.v1.userId,
-                    references: UserAccountModel.schema, .id
+                    references: UserAccountModel.schema, .id,
+                    onDelete: .cascade
                 )
                 .field(LikeModel.FieldKeys.v1.postId, .uuid, .required)
                 .foreignKey(
                     LikeModel.FieldKeys.v1.postId,
-                    references: PostModel.schema, .id
+                    references: PostModel.schema, .id,
+                    onDelete: .cascade
                 )
                 .field(LikeModel.FieldKeys.v1.createdAt, .datetime)
                 .field(LikeModel.FieldKeys.v1.updatedAt, .datetime)

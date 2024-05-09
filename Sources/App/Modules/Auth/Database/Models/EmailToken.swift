@@ -21,6 +21,15 @@ final class EmailTokenModel: DatabaseModelInterface {
     @Field(key: FieldKeys.v1.expiresAt)
     var expiresAt: Date
     
+    @Timestamp(key: FieldKeys.v1.createdAt, on: .create)
+    var createdAt: Date?
+    
+    @Timestamp(key: FieldKeys.v1.updatedAt, on: .update)
+    var updatedAt: Date?
+    
+    @Timestamp(key: FieldKeys.v1.deletedAt, on: .delete)
+    var deletedAt: Date?
+
     init() {}
     
     init(
@@ -42,6 +51,9 @@ extension EmailTokenModel {
             static var userId: FieldKey { "user_id" }
             static var value: FieldKey { "value" }
             static var expiresAt: FieldKey { "expires_at" }
+            static var createdAt: FieldKey { "created_at" }
+            static var updatedAt: FieldKey { "updated_at" }
+            static var deletedAt: FieldKey { "deleted_at" }
         }
     }
 }

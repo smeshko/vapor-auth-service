@@ -7,6 +7,9 @@ enum MetadataMigrations {
             try await database.schema(ChallengeTokenModel.schema)
                 .id()
                 .field(ChallengeTokenModel.FieldKeys.v1.value, .string, .required)
+                .field(ChallengeTokenModel.FieldKeys.v1.createdAt, .datetime)
+                .field(ChallengeTokenModel.FieldKeys.v1.updatedAt, .datetime)
+                .field(ChallengeTokenModel.FieldKeys.v1.deletedAt, .datetime)
                 .unique(on: ChallengeTokenModel.FieldKeys.v1.value)
                 .create()
         }

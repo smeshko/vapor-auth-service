@@ -10,12 +10,14 @@ enum UserFollowerMigrations {
                 .field(UserFollowerModel.FieldKeys.v1.userId, .uuid, .required)
                 .foreignKey(
                     UserFollowerModel.FieldKeys.v1.userId,
-                    references: UserAccountModel.schema, .id
+                    references: UserAccountModel.schema, .id,
+                    onDelete: .cascade
                 )
                 .field(UserFollowerModel.FieldKeys.v1.followerId, .uuid, .required)
                 .foreignKey(
                     UserFollowerModel.FieldKeys.v1.followerId,
-                    references: UserAccountModel.schema, .id
+                    references: UserAccountModel.schema, .id,
+                    onDelete: .cascade
                 )
                 .field(UserFollowerModel.FieldKeys.v1.createdAt, .datetime)
                 .field(UserFollowerModel.FieldKeys.v1.updatedAt, .datetime)

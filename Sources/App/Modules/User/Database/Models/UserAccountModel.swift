@@ -51,6 +51,15 @@ final class UserAccountModel: DatabaseModelInterface, Authenticatable {
     @Siblings(through: UserFollowerModel.self, from: \.$follower, to: \.$user)
     var following: [UserAccountModel]
 
+    @Timestamp(key: FieldKeys.v1.createdAt, on: .create)
+    var createdAt: Date?
+    
+    @Timestamp(key: FieldKeys.v1.updatedAt, on: .update)
+    var updatedAt: Date?
+    
+    @Timestamp(key: FieldKeys.v1.deletedAt, on: .delete)
+    var deletedAt: Date?
+
     init() { }
     
     init(
@@ -87,6 +96,9 @@ extension UserAccountModel {
             static var lastName: FieldKey { "last_name" }
             static var avatar: FieldKey { "avatar" }
             static var appleUserIdentifier: FieldKey { "apple_user_identifier" }
+            static var createdAt: FieldKey { "created_at" }
+            static var updatedAt: FieldKey { "updated_at" }
+            static var deletedAt: FieldKey { "deleted_at" }
         }
     }
 }

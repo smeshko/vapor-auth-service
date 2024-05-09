@@ -30,6 +30,15 @@ final class LocationModel: DatabaseModelInterface {
     @Parent(key: FieldKeys.v1.userId)
     var user: UserAccountModel
     
+    @Timestamp(key: FieldKeys.v1.createdAt, on: .create)
+    var createdAt: Date?
+    
+    @Timestamp(key: FieldKeys.v1.updatedAt, on: .update)
+    var updatedAt: Date?
+    
+    @Timestamp(key: FieldKeys.v1.deletedAt, on: .delete)
+    var deletedAt: Date?
+
     init() {}
     
     init(
@@ -63,6 +72,9 @@ extension LocationModel {
             static var longitude: FieldKey { "longitude" }
             static var latitude: FieldKey { "latitude" }
             static var radius: FieldKey { "radius" }
+            static var createdAt: FieldKey { "created_at" }
+            static var updatedAt: FieldKey { "updated_at" }
+            static var deletedAt: FieldKey { "deleted_at" }
         }
     }
 }

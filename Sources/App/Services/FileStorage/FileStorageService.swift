@@ -3,7 +3,7 @@ import Vapor
 protocol FileStorageService {
     func `for`(_ request: Request) -> FileStorageService
     func save(_ file: ByteBuffer, key: String) async throws
-    func fetch(_ fileKey: String) async throws -> Data
+    func fetch(_ fileKey: String, percentageOfOriginalSize: Double?) async throws -> Data
 }
 
 extension Application.Services {

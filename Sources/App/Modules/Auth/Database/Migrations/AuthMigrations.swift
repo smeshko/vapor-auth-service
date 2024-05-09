@@ -9,6 +9,9 @@ enum AuthMigrations {
                 .field(RefreshTokenModel.FieldKeys.v1.value, .string, .required)
                 .field(RefreshTokenModel.FieldKeys.v1.expiresAt, .datetime, .required)
                 .field(RefreshTokenModel.FieldKeys.v1.userId, .uuid, .required)
+                .field(RefreshTokenModel.FieldKeys.v1.createdAt, .datetime)
+                .field(RefreshTokenModel.FieldKeys.v1.updatedAt, .datetime)
+                .field(RefreshTokenModel.FieldKeys.v1.deletedAt, .datetime)
                 .foreignKey(
                     RefreshTokenModel.FieldKeys.v1.userId,
                     references: UserAccountModel.schema, .id,
@@ -22,6 +25,9 @@ enum AuthMigrations {
                 .field(EmailTokenModel.FieldKeys.v1.value, .string, .required)
                 .field(EmailTokenModel.FieldKeys.v1.expiresAt, .datetime, .required)
                 .field(EmailTokenModel.FieldKeys.v1.userId, .uuid, .required)
+                .field(EmailTokenModel.FieldKeys.v1.createdAt, .datetime)
+                .field(EmailTokenModel.FieldKeys.v1.updatedAt, .datetime)
+                .field(EmailTokenModel.FieldKeys.v1.deletedAt, .datetime)
                 .foreignKey(
                     EmailTokenModel.FieldKeys.v1.userId,
                     references: UserAccountModel.schema, .id,
@@ -35,6 +41,9 @@ enum AuthMigrations {
                 .field(PasswordTokenModel.FieldKeys.v1.value, .string, .required)
                 .field(PasswordTokenModel.FieldKeys.v1.expiresAt, .datetime, .required)
                 .field(PasswordTokenModel.FieldKeys.v1.userId, .uuid, .required)
+                .field(PasswordTokenModel.FieldKeys.v1.createdAt, .datetime)
+                .field(PasswordTokenModel.FieldKeys.v1.updatedAt, .datetime)
+                .field(PasswordTokenModel.FieldKeys.v1.deletedAt, .datetime)
                 .foreignKey(
                     PasswordTokenModel.FieldKeys.v1.userId,
                     references: UserAccountModel.schema, .id,

@@ -42,6 +42,15 @@ final class BusinessAccountModel: DatabaseModelInterface {
     @Field(key: FieldKeys.v1.avatarId)
     var avatarId: UUID
     
+    @Timestamp(key: FieldKeys.v1.createdAt, on: .create)
+    var createdAt: Date?
+    
+    @Timestamp(key: FieldKeys.v1.updatedAt, on: .update)
+    var updatedAt: Date?
+    
+    @Timestamp(key: FieldKeys.v1.deletedAt, on: .delete)
+    var deletedAt: Date?
+
     init() {}
     
     init(
@@ -84,6 +93,9 @@ extension BusinessAccountModel {
             static var photoIds: FieldKey { "photo_ids" }
             static var isVerified: FieldKey { "is_verified" }
             static var avatarId: FieldKey { "avatar_id" }
+            static var createdAt: FieldKey { "created_at" }
+            static var updatedAt: FieldKey { "updated_at" }
+            static var deletedAt: FieldKey { "deleted_at" }
         }
     }
 }

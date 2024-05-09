@@ -18,10 +18,14 @@ enum BusinessMigrations {
                 .field(BusinessAccountModel.FieldKeys.v1.photoIds, .array(of: .uuid), .required)
                 .field(BusinessAccountModel.FieldKeys.v1.isVerified, .bool, .required)
                 .field(BusinessAccountModel.FieldKeys.v1.avatarId, .uuid, .required)
+                .field(BusinessAccountModel.FieldKeys.v1.createdAt, .datetime)
+                .field(BusinessAccountModel.FieldKeys.v1.updatedAt, .datetime)
+                .field(BusinessAccountModel.FieldKeys.v1.deletedAt, .datetime)
                 .field(BusinessAccountModel.FieldKeys.v1.userId, .uuid, .required)
                 .foreignKey(
                     BusinessAccountModel.FieldKeys.v1.userId,
-                    references: UserAccountModel.schema, .id
+                    references: UserAccountModel.schema, .id,
+                    onDelete: .cascade
                 )
                 .unique(on: BusinessAccountModel.FieldKeys.v1.name)
                 .create()

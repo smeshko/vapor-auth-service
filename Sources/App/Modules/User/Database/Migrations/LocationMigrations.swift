@@ -13,6 +13,9 @@ enum LocationMigrations {
                 .field(LocationModel.FieldKeys.v1.longitude, .double, .required)
                 .field(LocationModel.FieldKeys.v1.latitude, .double, .required)
                 .field(LocationModel.FieldKeys.v1.radius, .double)
+                .field(LocationModel.FieldKeys.v1.createdAt, .datetime)
+                .field(LocationModel.FieldKeys.v1.updatedAt, .datetime)
+                .field(LocationModel.FieldKeys.v1.deletedAt, .datetime)
                 .field(LocationModel.FieldKeys.v1.userId, .uuid, .required)
                 .foreignKey(
                     LocationModel.FieldKeys.v1.userId,

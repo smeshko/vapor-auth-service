@@ -18,6 +18,15 @@ final class MediaModel: DatabaseModelInterface {
     @Field(key: FieldKeys.v1.key)
     var key: String
     
+    @Timestamp(key: FieldKeys.v1.createdAt, on: .create)
+    var createdAt: Date?
+    
+    @Timestamp(key: FieldKeys.v1.updatedAt, on: .update)
+    var updatedAt: Date?
+    
+    @Timestamp(key: FieldKeys.v1.deletedAt, on: .delete)
+    var deletedAt: Date?
+
     init() {}
     
     init(
@@ -39,6 +48,9 @@ extension MediaModel {
             static var type: FieldKey { "type" }
             static var ext: FieldKey { "extension" }
             static var key: FieldKey { "key" }
+            static var createdAt: FieldKey { "created_at" }
+            static var updatedAt: FieldKey { "updated_at" }
+            static var deletedAt: FieldKey { "deleted_at" }
         }
     }
 }

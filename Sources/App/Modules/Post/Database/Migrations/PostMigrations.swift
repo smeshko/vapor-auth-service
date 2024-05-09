@@ -18,7 +18,8 @@ enum PostMigrations {
                 .field(PostModel.FieldKeys.v1.deletedAt, .datetime)
                 .foreignKey(
                     PostModel.FieldKeys.v1.userId,
-                    references: UserAccountModel.schema, .id
+                    references: UserAccountModel.schema, .id,
+                    onDelete: .cascade
                 )
                 .create()
         }

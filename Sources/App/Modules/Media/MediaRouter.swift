@@ -9,14 +9,15 @@ struct MediaRouter: RouteCollection {
             .grouped("api")
             .grouped("media")
         
-        mediaAPI.get("download", ":mediaID", use: controller.download)
+        mediaAPI
+            .post("download", use: controller.download)
 
         let protectedAPI = mediaAPI
             .grouped(UserAccountModel.guard())
 
         protectedAPI.on(
             .POST, "upload",
-            body: .collect(maxSize: 10_000_000),
+            body: .collect,
             use: controller.upload
         )
     }
