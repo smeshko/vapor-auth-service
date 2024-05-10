@@ -36,9 +36,9 @@ extension Application {
             UserModule(),
             BusinessModule(),
             AuthModule(),
+            MediaModule(),
             FrontendModule(),
             PostModule(),
-            MediaModule(),
             CommentModule(),
             ExternalServicesModule()
         ]

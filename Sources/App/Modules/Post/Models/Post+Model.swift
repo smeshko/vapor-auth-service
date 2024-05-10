@@ -16,6 +16,8 @@ extension Post.Create.Response {
             title: model.title,
             createdAt: model.createdAt ?? .now,
             text: model.text,
+            category: .init(rawValue: model.category) ?? .grocery,
+            tags: model.tags.compactMap(Tag.init(rawValue:)),
             imageIDs: model.imageIDs ?? [],
             videoIDs: model.videoIDs ?? []
         )
@@ -53,11 +55,12 @@ extension Post.Detail.Response {
             createdAt: model.createdAt ?? .now,
             user: .init(from: model.user),
             comments: model.comments.map(Comment.List.Response.init(from:)),
-            text: model.text,
+            text: model.text, 
+            category: .init(rawValue: model.category) ?? .grocery,
+            tags: model.tags.compactMap(Tag.init(rawValue:)),
             likes: model.likedBy.count,
             imageIDs: model.imageIDs ?? [],
-            videoIDs: model.videoIDs ?? [],
-            tags: model.tags
+            videoIDs: model.videoIDs ?? []
         )
     }
 }

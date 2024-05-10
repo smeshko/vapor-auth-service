@@ -39,6 +39,7 @@ enum UserMigrations {
                 password: try Bcrypt.hash(password),
                 firstName: "John",
                 lastName: "Doe",
+                avatar: UUID(uuidString: "871947E2-2A0E-498F-BED9-D3E1060D0A32")!,
                 isAdmin: true,
                 isEmailVerified: true
             )

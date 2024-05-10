@@ -7,7 +7,7 @@ protocol PostRepository: Repository {
     func find(id: UUID) async throws -> PostModel?
     func create(_ model: PostModel) async throws
     func all(forUserId id: UUID) async throws -> [PostModel]
-    func all() async throws -> [PostModel]
+    func all(tag: String?, category: String?) async throws -> [PostModel]
     func update(_ model: PostModel) async throws
     
     func user(_ user: UserAccountModel, likes post: PostModel) async throws
@@ -38,11 +38,21 @@ struct DatabasePostRepository: PostRepository, DatabaseRepository {
         try await model.create(on: database)
     }
     
-    func all() async throws -> [PostModel] {
+    func all(tag: String?, category: String?) async throws -> [PostModel] {
         try await PostModel.query(on: database)
             .with(\.$user)
             .with(\.$comments)
             .with(\.$likedBy)
+            .group(.or) { group in
+                if let category {
+                    group
+                        .filter(\.$category == category)
+                }
+                if let tag {
+                    group
+                        .filter(.sql(embed: "\(bind: tag) = ANY (\(ident: "tags"))"))
+                }
+            }
             .all()
     }
     

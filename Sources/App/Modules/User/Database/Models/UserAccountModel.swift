@@ -69,6 +69,7 @@ final class UserAccountModel: DatabaseModelInterface, Authenticatable {
         firstName: String? = nil,
         lastName: String? = nil,
         appleUserIdentifier: String? = nil,
+        avatar: UUID? = nil,
         isAdmin: Bool = false,
         isEmailVerified: Bool = false
     ) {
@@ -77,6 +78,7 @@ final class UserAccountModel: DatabaseModelInterface, Authenticatable {
         self.firstName = firstName
         self.lastName = lastName
         self.appleUserIdentifier = appleUserIdentifier
+        self.avatar = avatar
         self.isAdmin = isAdmin
         self.isEmailVerified = isEmailVerified
         self.password = password

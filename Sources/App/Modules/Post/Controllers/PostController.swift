@@ -25,9 +25,10 @@ struct PostController {
             user: user,
             imageIDs: request.imageIDs,
             videoIDs: request.videoIDs,
+            category: request.category.rawValue,
             text: request.text,
             title: request.title,
-            tags: []
+            tags: request.tags.map(\.rawValue)
         )
         
         try await req.repositories.posts.create(postModel)
@@ -46,8 +47,11 @@ struct PostController {
     }
     
     func all(_ req: Request) async throws -> [Post.List.Response] {
-        try await req.repositories.posts
-            .all()
+        let category = try req.query.get(String?.self, at: "category")
+        let tag = try req.query.get(String?.self, at: "tag")
+
+        return try await req.repositories.posts
+            .all(tag: tag, category: category)
             .map(Post.List.Response.init(from:))
     }
     

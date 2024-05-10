@@ -24,6 +24,9 @@ final class PostModel: DatabaseModelInterface {
     @Field(key: FieldKeys.v1.tags)
     var tags: [String]
     
+    @Field(key: FieldKeys.v1.category)
+    var category: String
+    
     @Field(key: FieldKeys.v1.title)
     var title: String
     
@@ -50,6 +53,7 @@ final class PostModel: DatabaseModelInterface {
         imageIDs: [UUID]? = nil,
         videoIDs: [UUID]? = nil,
         createdAt: Date? = nil,
+        category: String,
         text: String,
         title: String,
         tags: [String] = []
@@ -59,6 +63,7 @@ final class PostModel: DatabaseModelInterface {
         self.imageIDs = imageIDs
         self.videoIDs = videoIDs
         self.createdAt = createdAt
+        self.category = category
         self.title = title
         self.text = text
         self.tags = tags
@@ -74,6 +79,7 @@ extension PostModel {
             static var text: FieldKey { "test" }
             static var title: FieldKey { "title" }
             static var tags: FieldKey { "tags" }
+            static var category: FieldKey { "category" }
             static var createdAt: FieldKey { "created_at" }
             static var updatedAt: FieldKey { "updated_at" }
             static var deletedAt: FieldKey { "deleted_at" }
