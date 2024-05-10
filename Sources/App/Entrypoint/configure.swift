@@ -17,6 +17,6 @@ public func configure(_ app: Application) throws {
     
     app.logger.info("Environment: \(app.environment.name)")
     
-//    try app.autoRevert().wait()
+    try app.autoRevert().wait()
     try app.autoMigrate().wait()
 }
