@@ -3,6 +3,9 @@ import FluentPostgresDriver
 import FluentSQLiteDriver
 import JWT
 import Vapor
+import APNS
+import VaporAPNS
+import APNSCore
 
 private extension String {
     var bytes: [UInt8] { .init(self.utf8) }
@@ -97,5 +100,10 @@ extension Application {
         services.fileStorage.use(.s3)
         services.email.use(.brevo)
         services.appAttest.use(.live)
+        services.apns.use(.live)
+    }
+    
+    func setupAPNS() throws {
+        try services.apns.service.setup()
     }
 }

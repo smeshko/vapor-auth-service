@@ -9,6 +9,7 @@ struct UserModule: ModuleInterface {
         app.migrations.add(UserMigrations.v1())
         app.migrations.add(LocationMigrations.v1())
         app.migrations.add(UserFollowerMigrations.v1())
+        app.migrations.add(DeviceMigrations.v1())
 
         if app.environment == .development {
             app.migrations.add(UserMigrations.seed())

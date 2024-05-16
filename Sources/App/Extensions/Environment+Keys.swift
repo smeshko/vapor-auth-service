@@ -62,14 +62,6 @@ extension Environment {
         }
     }
     
-    static var jwtKey: String {
-        if let key = Environment.get("JWT_KEY") {
-            return key
-        } else {
-            fatalError("JWT_KEY is empty")
-        }
-    }
-    
     static var placesKey: String {
         if let key = Environment.get("PLACES_API_KEY") {
             return key
@@ -114,6 +106,34 @@ extension Environment {
     }
 }
 
+// MARK: - APNS
+extension Environment {
+    
+    static var apnsKey: String {
+        if let key = Environment.get("APNS_KEY") {
+            return key
+        } else {
+            fatalError("APNS_KEY is empty")
+        }
+    }
+    
+    static var apnsPrivateKey: String {
+        if let key = Environment.get("APNS_PRIVATE_KEY") {
+            return key
+        } else {
+            fatalError("APNS_PRIVATE_KEY is empty")
+        }
+    }
+    
+    static var apnsTeamId: String {
+        if let key = Environment.get("APNS_TEAM_ID") {
+            return key
+        } else {
+            fatalError("APNS_TEAM_ID is empty")
+        }
+    }
+}
+
 // MARK: - Setup
 extension Environment {
     static var named: String {
@@ -133,6 +153,14 @@ extension Environment {
             return appIdentifier
         } else {
             fatalError("APPLICATION_IDENTIFIER is empty")
+        }
+    }
+    
+    static var jwtKey: String {
+        if let key = Environment.get("JWT_KEY") {
+            return key
+        } else {
+            fatalError("JWT_KEY is empty")
         }
     }
 }

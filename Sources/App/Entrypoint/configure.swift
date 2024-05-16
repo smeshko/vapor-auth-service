@@ -14,9 +14,10 @@ public func configure(_ app: Application) throws {
     try app.setupJWT()
     try app.setupModules()
     app.setupServices()
-    
+    try app.setupAPNS()
+
     app.logger.info("Environment: \(app.environment.name)")
     
-    try app.autoRevert().wait()
+//    try app.autoRevert().wait()
     try app.autoMigrate().wait()
 }

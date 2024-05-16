@@ -1,7 +1,6 @@
 import Common
 import Entities
 import Fluent
-import JWT
 import Vapor
 
 struct UserController {
