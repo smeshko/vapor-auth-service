@@ -1,23 +1,22 @@
 @testable import App
 import XCTVapor
 import Common
+import Testing
 
-final class RandomGeneratorTests: XCTestCase {
-    var app: Application!
-    var testWorld: TestWorld!
+struct _RandomGeneratorTests {
+    let app: Application
+    let testWorld: TestWorld
     
-    override func setUpWithError() throws {
-        app = Application(.testing)
+    init() throws {
+        self.app = Application(.testing)
         try configure(app)
-        testWorld = try .init(app: app)
+        self.testWorld = try .init(app: app)
     }
     
-    override func tearDown() {
-        app.shutdown()
-    }
-    
-    func testDefaultProvider() throws {
+    @Test
+    func defaultProvider() throws {
         let defaultGenerator = app.random.generator
-        XCTAssertTrue(type(of: defaultGenerator) == RealRandomGenerator.self)
+        #expect(type(of: defaultGenerator) == RealRandomGenerator.self)
     }
+
 }

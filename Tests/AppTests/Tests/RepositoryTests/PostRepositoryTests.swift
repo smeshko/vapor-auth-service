@@ -54,7 +54,7 @@ final class PostRepositoryTests: XCTestCase {
         let _ = try await createModel()
         let _ = try await createModel()
         
-        let all = try await repository.all()
+        let all = try await repository.all(tag: nil, category: nil)
         XCTAssertEqual(all.count, 2)
     }
     

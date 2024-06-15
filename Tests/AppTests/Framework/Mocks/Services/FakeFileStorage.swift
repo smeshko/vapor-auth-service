@@ -6,7 +6,7 @@ struct FakeFileStorage: FileStorageService {
         Self.init()
     }
     
-    func fetch(_ fileKey: String) async throws -> Data {
+    func fetch(_ fileKey: String, percentageOfOriginalSize: Double?) async throws -> Data {
         Data()
     }
     
@@ -18,8 +18,7 @@ struct FakeThrowingFileStorage: FileStorageService {
         Self.init()
     }
     
-
-    func fetch(_ fileKey: String) async throws -> Data {
+    func fetch(_ fileKey: String, percentageOfOriginalSize: Double?) async throws -> Data {
         throw Abort(.badRequest)
     }
     

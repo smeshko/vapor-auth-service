@@ -22,7 +22,10 @@ final class PostCreateTests: XCTestCase {
         user = try UserAccountModel.mock(app: app)
         
         post = .init(
+            title: "This is a title",
             text: "This is a post",
+            category: .restaurant,
+            tags: [],
             imageIDs: [],
             videoIDs: []
         )
@@ -56,9 +59,12 @@ final class PostCreateTests: XCTestCase {
         try await app.repositories.media.create(video)
         
         post = .init(
+            title: "This is a title",
             text: "This is a post",
-            imageIDs: [id1],
-            videoIDs: [id2]
+            category: .restaurant,
+            tags: [],
+            imageIDs: [],
+            videoIDs: []
         )
         
         try await app.test(.POST, path, user: user, content: post) { response in

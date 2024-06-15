@@ -9,6 +9,8 @@ extension PostModel {
         videoIDs: [UUID]? = nil,
         createdAt: Date? = .now,
         text: String = "This is a post",
+        title: String = "This is title",
+        category: String = "Category",
         tags: [String] = []
     ) throws -> PostModel {
         try .init(
@@ -17,7 +19,9 @@ extension PostModel {
             imageIDs: imageIDs,
             videoIDs: videoIDs,
             createdAt: createdAt,
+            category: category,
             text: text,
+            title: title,
             tags: tags
         )
     }

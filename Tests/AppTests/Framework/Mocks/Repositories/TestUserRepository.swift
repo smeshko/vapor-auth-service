@@ -17,6 +17,8 @@ class TestUserRepository: UserRepository, TestRepository {
         model.id = model.id ?? UUID()
         model.$posts.value = []
         model.$comments.value = []
+        model.$following.value = []
+        model.$followers.value = []
         users.append(model)
     }
 
@@ -82,4 +84,22 @@ class TestUserRepository: UserRepository, TestRepository {
     func loadLocation(for user: UserAccountModel) async throws {
         user.$location.value = locations[user.id!]
     }
+    
+    func followers(for user: UserAccountModel) async throws -> [UserAccountModel] {
+        user.followers
+    }
+    
+    func following(for user: UserAccountModel) async throws -> [UserAccountModel] {
+        user.following
+    }
+    
+    func user(_ user: UserAccountModel, startsFollowing other: UserAccountModel) async throws {
+        user.following.append(other)
+    }
+    
+    func user(_ user: UserAccountModel, unfollows other: UserAccountModel) async throws {
+        user.following.removeAll(where: { $0.id == other.id })
+    }
+    
+
 }

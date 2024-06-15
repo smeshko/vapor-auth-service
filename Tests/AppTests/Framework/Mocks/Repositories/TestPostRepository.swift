@@ -27,6 +27,17 @@ class TestPostRepository: PostRepository, TestRepository {
         posts
     }
     
+    func all(tag: String?, category: String?) async throws -> [PostModel] {
+        var result: [PostModel] = []
+        if let tag {
+            result.append(contentsOf: posts.filter { $0.tags.contains(tag) })
+        }
+        if let category {
+            result.append(contentsOf: posts.filter { $0.category == category })
+        }
+        return result
+    }
+
     func all(forUserId id: UUID) async throws -> [PostModel] {
         posts.filter { $0.$user.id == id }
     }

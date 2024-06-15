@@ -43,6 +43,7 @@ extension Application {
             FrontendModule(),
             PostModule(),
             CommentModule(),
+            ShoppingListModule(),
             ExternalServicesModule()
         ]
         

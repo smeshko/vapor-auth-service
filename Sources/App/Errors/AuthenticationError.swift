@@ -2,9 +2,13 @@ import Common
 import Entities
 import Vapor
 
-extension AuthenticationError: AppError {}
+extension AuthenticationError: @retroactive DebuggableError {}
+extension AuthenticationError: @retroactive CustomStringConvertible {}
+extension AuthenticationError: @retroactive CustomDebugStringConvertible {}
+extension AuthenticationError: @retroactive LocalizedError {}
+extension AuthenticationError: @retroactive AppError {}
 
-extension AuthenticationError: AbortError {
+extension AuthenticationError: @retroactive AbortError {
     public var status: HTTPResponseStatus {
         switch self {
         case .passwordsDontMatch:
