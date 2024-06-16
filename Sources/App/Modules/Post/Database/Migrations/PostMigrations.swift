@@ -7,8 +7,8 @@ enum PostMigrations {
         func prepare(on database: any Database) async throws {
             try await database.schema(PostModel.schema)
                 .id()
-                .field(PostModel.FieldKeys.v1.imageIDs, .array(of: .string))
-                .field(PostModel.FieldKeys.v1.videoIDs, .array(of: .string))
+                .field(PostModel.FieldKeys.v1.imageIDs, .array(of: .uuid))
+                .field(PostModel.FieldKeys.v1.videoIDs, .array(of: .uuid))
                 .field(PostModel.FieldKeys.v1.tags, .array(of: .string), .required)
                 .field(PostModel.FieldKeys.v1.category, .string, .required)
                 .field(PostModel.FieldKeys.v1.text, .string, .required)
@@ -16,6 +16,12 @@ enum PostMigrations {
                 .field(PostModel.FieldKeys.v1.createdAt, .datetime)
                 .field(PostModel.FieldKeys.v1.updatedAt, .datetime)
                 .field(PostModel.FieldKeys.v1.deletedAt, .datetime)
+                .field(PostModel.FieldKeys.v1.productIds, .array(of: .uuid))
+                .foreignKey(
+                    PostModel.FieldKeys.v1.productIds,
+                    references: ProductModel.schema, .id,
+                    onDelete: .cascade
+                )
                 .field(PostModel.FieldKeys.v1.userId, .uuid, .required)
                 .foreignKey(
                     PostModel.FieldKeys.v1.userId,
@@ -39,6 +45,7 @@ enum PostMigrations {
                     UUID(uuidString: "C8C0FE53-6F22-42FD-8BE0-259FE4588B3D")!,
                     UUID(uuidString: "E6A5E465-38DD-4E88-AF86-9788E021F3B6")!
                 ],
+                relatedProductIds: nil,
                 category: "home_kitchen",
                 text: "This is post",
                 title: "This is a post with multiple images",
@@ -50,6 +57,7 @@ enum PostMigrations {
                 imageIDs: [
                     UUID(uuidString: "C8C0FE53-6F22-42FD-8BE0-259FE4588B3D")!
                 ],
+                relatedProductIds: nil,
                 category: "grocery",
                 text: "Aliqua commodo qui lorem dolor fugiat pariatur officia proident proident eu nostrud. Irure minim occaecat commodo laborum ad anim ex ullamco dolor proident ipsum dolore tempor voluptate ut. Reprehenderit eiusmod excepteur officia ullamco irure id eiusmod laboris eiusmod. Culpa consectetur ut nisi est consequat veniam ullamco amet aliquip exercitation proident dolor adipiscing veniam anim et. Consequat commodo esse laboris commodo sit velit consequat ut id voluptate irure. Tempor voluptate aliquip proident ex reprehenderit commodo pariatur laborum esse exercitation laborum. Incididunt est veniam fugiat dolor tempor sint minim velit est ut elit in sed anim anim quis exercitation. Ut elit qui do aute consequat do culpa sunt qui cupidatat. Dolore ex est sit id qui ad magna labore laboris sunt. Sint elit consectetur eiusmod tempor ut non duis commodo amet irure exercitation dolore qui consequat anim velit.",
                 title: "This is a post with a long description",
@@ -61,6 +69,7 @@ enum PostMigrations {
                 imageIDs: [
                     UUID(uuidString: "E6A5E465-38DD-4E88-AF86-9788E021F3B6")!
                 ],
+                relatedProductIds: nil,
                 category: "organic_food",
                 text: "This is post",
                 title: "This is a post with with a long title that should get truncated on Discover",

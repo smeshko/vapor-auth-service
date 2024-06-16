@@ -12,6 +12,7 @@ enum CommentMigrations {
                 .field(CommentModel.FieldKeys.v1.createdAt, .datetime)
                 .field(CommentModel.FieldKeys.v1.updatedAt, .datetime)
                 .field(CommentModel.FieldKeys.v1.deletedAt, .datetime)
+                .field(CommentModel.FieldKeys.v1.parentCommentId, .uuid)
                 .foreignKey(
                     CommentModel.FieldKeys.v1.parentCommentId,
                     references: CommentModel.schema, .id,

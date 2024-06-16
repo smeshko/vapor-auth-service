@@ -30,14 +30,17 @@ final class ShoppingListItemModel: DatabaseModelInterface {
         id: UUID? = nil,
         createdAt: Date? = nil,
         updatedAt: Date? = nil,
-        deletedAt: Date? = nil
+        deletedAt: Date? = nil,
+        shoppingListId: UUID,
+        productId: UUID
     ) {
         self.id = id
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.deletedAt = deletedAt
+        self.$shoppingList.id = shoppingListId
+        self.$product.id = productId
     }
-    
 }
 
 extension ShoppingListItemModel {

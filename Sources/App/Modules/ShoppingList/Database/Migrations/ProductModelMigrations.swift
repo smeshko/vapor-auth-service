@@ -13,6 +13,7 @@ enum ProductModelMigrations {
                 .field(ProductModel.FieldKeys.v1.imageId, .uuid, .required)
                 .field(ProductModel.FieldKeys.v1.name, .string, .required)
                 .field(ProductModel.FieldKeys.v1.category, .string, .required)
+                .unique(on: ProductModel.FieldKeys.v1.name)
                 .create()
         }
         
@@ -21,4 +22,3 @@ enum ProductModelMigrations {
         }
     }
 }
-

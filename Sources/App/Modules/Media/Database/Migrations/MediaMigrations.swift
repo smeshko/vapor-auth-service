@@ -57,6 +57,13 @@ enum MediaMigrations {
                 ext: "jpg",
                 key: "EE3D78AA-F2AE-4452-9709-B6B93E6EDC51"
             ).create(on: database)
+            
+            try await MediaModel(
+                id: UUID(uuidString: "A78FD913-8B9A-421C-AAC7-1272956DA875"),
+                type: "photo",
+                ext: "jpg",
+                key: "A78FD913-8B9A-421C-AAC7-1272956DA875"
+            ).create(on: database) // avocado
         }
         
         func revert(on database: any Database) async throws {

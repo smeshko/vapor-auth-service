@@ -25,6 +25,7 @@ struct PostController {
             user: user,
             imageIDs: request.imageIDs,
             videoIDs: request.videoIDs,
+            relatedProductIds: nil,
             category: request.category.rawValue,
             text: request.text,
             title: request.title,

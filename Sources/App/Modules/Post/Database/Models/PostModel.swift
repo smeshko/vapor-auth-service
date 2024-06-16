@@ -18,6 +18,9 @@ final class PostModel: DatabaseModelInterface {
     @OptionalField(key: FieldKeys.v1.videoIDs)
     var videoIDs: [UUID]?
     
+    @Field(key: FieldKeys.v1.productIds)
+    var relatedProductIds: [UUID]?
+    
     @Children(for: \.$post)
     var comments: [CommentModel]
     
@@ -53,6 +56,7 @@ final class PostModel: DatabaseModelInterface {
         imageIDs: [UUID]? = nil,
         videoIDs: [UUID]? = nil,
         createdAt: Date? = nil,
+        relatedProductIds: [UUID]?,
         category: String,
         text: String,
         title: String,
@@ -60,6 +64,7 @@ final class PostModel: DatabaseModelInterface {
     ) throws {
         self.id = id
         self.$user.id = try user.requireID()
+        self.relatedProductIds = relatedProductIds
         self.imageIDs = imageIDs
         self.videoIDs = videoIDs
         self.createdAt = createdAt
@@ -74,6 +79,7 @@ extension PostModel {
     struct FieldKeys {
         struct v1 {
             static var userId: FieldKey { "user_id" }
+            static var productIds: FieldKey { "product_ids" }
             static var imageIDs: FieldKey { "image_ids" }
             static var videoIDs: FieldKey { "video_ids" }
             static var text: FieldKey { "test" }

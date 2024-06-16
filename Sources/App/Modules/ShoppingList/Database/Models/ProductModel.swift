@@ -33,12 +33,18 @@ final class ProductModel: DatabaseModelInterface {
         id: UUID? = nil,
         createdAt: Date? = nil,
         updatedAt: Date? = nil,
-        deletedAt: Date? = nil
+        deletedAt: Date? = nil,
+        name: String,
+        category: String,
+        imageId: UUID
     ) {
         self.id = id
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.deletedAt = deletedAt
+        self.name = name
+        self.category = category
+        self.imageId = imageId
     }
     
 }

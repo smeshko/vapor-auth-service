@@ -8,6 +8,16 @@ struct ShoppingListRouter: RouteCollection {
             .grouped("api")
             .grouped("shopping-list")
         
+        listAPI
+            .grouped(UserAccountModel.guard())
+            .post("add-products", use: controller.addProducts)
         
+        let productAPI = routes
+            .grouped("api")
+            .grouped("products")
+        
+        productAPI
+            .get("all", use: controller.products)
+
     }
 }

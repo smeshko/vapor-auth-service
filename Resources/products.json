@@ -1,0 +1,58 @@
+[
+    {
+      "name": "Apple",
+      "category": "fruit",
+      "imageId": "a78fd913-8b9a-421c-aac7-1272956da875",
+      "createdAt": "2024-06-15T00:00:00.000Z",
+      "updatedAt": "2024-06-15T00:00:00.000Z"
+    },
+    {
+      "name": "Pear",
+      "category": "fruit",
+      "imageId": "a78fd913-8b9a-421c-aac7-1272956da875",
+      "createdAt": "2024-06-15T00:00:00.000Z",
+      "updatedAt": "2024-06-15T00:00:00.000Z"
+    },
+    {
+      "name": "Apricot",
+      "category": "fruit",
+      "imageId": "a78fd913-8b9a-421c-aac7-1272956da875",
+      "createdAt": "2024-06-15T00:00:00.000Z",
+      "updatedAt": "2024-06-15T00:00:00.000Z"
+    },
+    {
+      "name": "Strawberries",
+      "category": "fruit",
+      "imageId": "a78fd913-8b9a-421c-aac7-1272956da875",
+      "createdAt": "2024-06-15T00:00:00.000Z",
+      "updatedAt": "2024-06-15T00:00:00.000Z"
+    },
+    {
+      "name": "Avocado",
+      "category": "vegetable",
+      "imageId": "a78fd913-8b9a-421c-aac7-1272956da875",
+      "createdAt": "2024-06-15T00:00:00.000Z",
+      "updatedAt": "2024-06-15T00:00:00.000Z"
+    },
+    {
+      "name": "Cucumber",
+      "category": "vegetable",
+      "imageId": "a78fd913-8b9a-421c-aac7-1272956da875",
+      "createdAt": "2024-06-15T00:00:00.000Z",
+      "updatedAt": "2024-06-15T00:00:00.000Z"
+    },
+    {
+      "name": "Beef Steak",
+      "category": "meat",
+      "imageId": "a78fd913-8b9a-421c-aac7-1272956da875",
+      "createdAt": "2024-06-15T00:00:00.000Z",
+      "updatedAt": "2024-06-15T00:00:00.000Z"
+    },
+    {
+      "name": "Chicken Breast",
+      "category": "meat",
+      "imageId": "a78fd913-8b9a-421c-aac7-1272956da875",
+      "createdAt": "2024-06-15T00:00:00.000Z",
+      "updatedAt": "2024-06-15T00:00:00.000Z"
+    }
+  ]

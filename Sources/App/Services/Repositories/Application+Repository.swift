@@ -15,6 +15,8 @@ public extension Application {
                     $0.repositories.use { DatabaseChallengeTokenRepository(database: $0.db) }
                     $0.repositories.use { DatabaseBusinessRepository(database: $0.db) }
                     $0.repositories.use { DatabaseDeviceRepository(database: $0.db) }
+                    $0.repositories.use { DatabaseShoppingListRepository(database: $0.db) }
+                    $0.repositories.use { DatabaseProductRepository(database: $0.db) }
                 }
             }
             
@@ -32,6 +34,8 @@ public extension Application {
             var makeChallengeTokenRepository: ((Application) -> any ChallengeTokenRepository)?
             var makeBusinessRepository: ((Application) -> any BusinessRepository)?
             var makeDeviceRepository: ((Application) -> any DeviceRepository)?
+            var makeShoppingListRepository: ((Application) -> any ShoppingListRepository)?
+            var makeProductRepository: ((Application) -> any ProductRepository)?
             init() { }
         }
         

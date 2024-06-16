@@ -33,12 +33,16 @@ final class ShoppingListModel: DatabaseModelInterface {
         id: UUID? = nil,
         createdAt: Date? = nil,
         updatedAt: Date? = nil,
-        deletedAt: Date? = nil
+        deletedAt: Date? = nil,
+        userId: UUID,
+        category: String
     ) {
         self.id = id
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.deletedAt = deletedAt
+        self.$user.id = userId
+        self.category = category
     }
     
 }
