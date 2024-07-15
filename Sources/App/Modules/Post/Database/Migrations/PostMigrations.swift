@@ -17,11 +17,6 @@ enum PostMigrations {
                 .field(PostModel.FieldKeys.v1.updatedAt, .datetime)
                 .field(PostModel.FieldKeys.v1.deletedAt, .datetime)
                 .field(PostModel.FieldKeys.v1.productIds, .array(of: .uuid))
-                .foreignKey(
-                    PostModel.FieldKeys.v1.productIds,
-                    references: ProductModel.schema, .id,
-                    onDelete: .cascade
-                )
                 .field(PostModel.FieldKeys.v1.userId, .uuid, .required)
                 .foreignKey(
                     PostModel.FieldKeys.v1.userId,

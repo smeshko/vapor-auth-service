@@ -8,7 +8,6 @@ enum CommentMigrations {
             try await database.schema(CommentModel.schema)
                 .id()
                 .field(CommentModel.FieldKeys.v1.text, .string)
-                .field(CommentModel.FieldKeys.v1.parentCommentId, .uuid)
                 .field(CommentModel.FieldKeys.v1.createdAt, .datetime)
                 .field(CommentModel.FieldKeys.v1.updatedAt, .datetime)
                 .field(CommentModel.FieldKeys.v1.deletedAt, .datetime)

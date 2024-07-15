@@ -41,9 +41,9 @@ extension Application {
             AuthModule(),
             MediaModule(),
             FrontendModule(),
+            ShoppingListModule(),
             PostModule(),
             CommentModule(),
-            ShoppingListModule(),
             ExternalServicesModule()
         ]
         
